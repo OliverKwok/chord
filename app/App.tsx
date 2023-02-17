@@ -1,20 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
 
-export default function App() {
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import Login from "./src/screen/Login";
+import Main from "./src/screen/Main";
+// import PdfViewer from "./src/screen/PdfViewer";
+
+import { RootStackParamList, ScreenList } from "./src/type";
+const RootStack = createNativeStackNavigator<RootStackParamList>();
+
+export default () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <RootStack.Navigator initialRouteName={ScreenList.Main}>
+        <RootStack.Screen name={ScreenList.Login} component={Login} />
+        <RootStack.Screen name={ScreenList.Main} component={Main} />
+        {/* <RootStack.Screen name={ScreenList.PdfViewer} component={PdfViewer} /> */}
+      </RootStack.Navigator>
+    </NavigationContainer>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
