@@ -138,15 +138,15 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 8,
     margin: 4,
+    flex: 1,
   },
   buttomContainer: {
     flexDirection: "row",
     flex: 10,
-    backgroundColor: "blue",
   },
   leftContainer: {
     flex: 1,
-    backgroundColor: "yellow",
+    backgroundColor: "#ffffd2",
   },
   leftButton: {
     borderColor: "black",
@@ -155,6 +155,6 @@ const styles = StyleSheet.create({
   },
   rightContainer: {
     flex: 1,
-    backgroundColor: "pink",
+    backgroundColor: "#fbe0e4",
   },
 });
