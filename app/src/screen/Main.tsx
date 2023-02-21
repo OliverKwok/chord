@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     padding: 8,
     margin: 4,
     flex: 1,
+    justifyContent: "center",
   },
   buttomContainer: {
     flexDirection: "row",
