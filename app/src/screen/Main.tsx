@@ -51,7 +51,7 @@ export default () => {
 
   function filePressHandler(fileName: string) {
     setSelectFile(fileName);
-    navigation.navigate(ScreenList.PdfViewer);
+    navigation.navigate(ScreenList.PrintPdf);
   }
 
   function subFolderPressHandler(subFolderName: string) {
