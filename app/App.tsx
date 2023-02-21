@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Login from "./src/screen/Login";
 import Main from "./src/screen/Main";
-// import PdfViewer from "./src/screen/PdfViewer";
 
 import { RootStackParamList, ScreenList } from "./src/type";
 const RootStack = createNativeStackNavigator<RootStackParamList>();

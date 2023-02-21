@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React from 'react';
+import axios from "axios";
+import React from "react";
 import {
   BackHandler,
   SafeAreaView,
@@ -10,11 +10,11 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
-} from 'react-native';
-import Config from 'react-native-config';
-import {useNavigation} from '@react-navigation/native';
+} from "react-native";
 
-import {ScreenList} from '../type';
+import { useNavigation } from "@react-navigation/native";
+
+import { ScreenList } from "../type";
 
 interface Item {
   name: string;
@@ -25,15 +25,17 @@ export default () => {
   const navigation = useNavigation();
 
   const [folderList, setFolderList] = React.useState<Item[]>([]);
-  const [selectFolder, setSelectFolder] = React.useState('');
+  const [selectFolder, setSelectFolder] = React.useState("");
   // const [subFolderList, setSubFolderList] = React.useState([]);
-  const [selectSubFolder, setSelectSubFolder] = React.useState('');
+  const [selectSubFolder, setSelectSubFolder] = React.useState("");
   // const [fileList, setFileList] = React.useState([]);
-  const [selectFile, setSelectFile] = React.useState('');
+  const [selectFile, setSelectFile] = React.useState("");
+
+  const API_URL = `http://localhost:3001`;
 
   React.useEffect(() => {
     axios
-      .get(`${Config.API_URL}/pdf`)
+      .get(`${API_URL}/pdf`)
       .then(function (response) {
         setFolderList(response.data);
       })
@@ -43,7 +45,7 @@ export default () => {
   });
 
   function folderPressHandler(folderName: string) {
-    setSelectSubFolder('');
+    setSelectSubFolder("");
     setSelectFolder(folderName);
   }
 
@@ -61,7 +63,8 @@ export default () => {
       <TouchableOpacity
         key={subFolderName}
         style={styles.leftButton}
-        onPress={() => subFolderPressHandler(subFolderName)}>
+        onPress={() => subFolderPressHandler(subFolderName)}
+      >
         <Text>{subFolderName}</Text>
       </TouchableOpacity>
     );
@@ -72,7 +75,8 @@ export default () => {
       <TouchableOpacity
         key={fileName}
         style={styles.leftButton}
-        onPress={() => filePressHandler(fileName)}>
+        onPress={() => filePressHandler(fileName)}
+      >
         <Text>{fileName}</Text>
       </TouchableOpacity>
     );
@@ -80,40 +84,41 @@ export default () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.topContainer}>
-        {folderList.map(item => {
+      <ScrollView horizontal={true} contentContainerStyle={styles.topContainer}>
+        {folderList.map((item) => {
           return (
             <TouchableOpacity
               key={item.name}
               style={styles.topButton}
-              onPress={() => folderPressHandler(item.name)}>
+              onPress={() => folderPressHandler(item.name)}
+            >
               <View>
                 <Text>{item.name}</Text>
               </View>
             </TouchableOpacity>
           );
         })}
-      </View>
+      </ScrollView>
       <View style={styles.buttomContainer}>
-        <View style={styles.leftContainer}>
-          {selectFolder == '' ? (
+        <ScrollView contentContainerStyle={styles.leftContainer}>
+          {selectFolder == "" ? (
             <Text>select folder</Text>
           ) : (
             folderList
-              .filter(item => item.name == selectFolder)?.[0]
-              .children.map(item => subFolderRenderer(item.name))
+              .filter((item) => item.name == selectFolder)?.[0]
+              .children.map((item) => subFolderRenderer(item.name))
           )}
-        </View>
-        <View style={styles.rightContainer}>
-          {selectSubFolder == '' ? (
+        </ScrollView>
+        <ScrollView contentContainerStyle={styles.rightContainer}>
+          {selectSubFolder == "" ? (
             <Text>select sub folder</Text>
           ) : (
             folderList
-              .filter(item => item.name == selectFolder)?.[0]
-              .children.filter(item => item.name == selectSubFolder)?.[0]
-              .children.map(item => fileRenderer(item.name))
+              .filter((item) => item.name == selectFolder)?.[0]
+              .children.filter((item) => item.name == selectSubFolder)?.[0]
+              .children.map((item) => fileRenderer(item.name))
           )}
-        </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -124,36 +129,32 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   topContainer: {
-    flexDirection: 'row',
-    flex: 1,
-    backgroundColor: '#d8d8d8',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    backgroundColor: "#d8d8d8",
     paddingHorizontal: 4,
   },
   topButton: {
-    borderColor: 'black',
+    borderColor: "black",
     borderWidth: 1,
     borderRadius: 8,
     padding: 8,
     margin: 4,
   },
   buttomContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     flex: 10,
-    backgroundColor: 'blue',
+    backgroundColor: "blue",
   },
   leftContainer: {
     flex: 1,
-    backgroundColor: 'yellow',
+    backgroundColor: "yellow",
   },
   leftButton: {
-    borderColor: 'black',
+    borderColor: "black",
     borderWidth: 1,
     padding: 8,
   },
   rightContainer: {
     flex: 1,
-    backgroundColor: 'pink',
+    backgroundColor: "pink",
   },
 });
