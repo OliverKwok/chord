@@ -1,20 +1,15 @@
-import axios from "axios";
-import React from "react";
+import React from 'react';
 import {
-  BackHandler,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
-  useColorScheme,
   View,
-} from "react-native";
+} from 'react-native';
 
-import { useNavigation } from "@react-navigation/native";
-
-import { ScreenList } from "../type";
+import axios from 'axios';
+import RNPrint from 'react-native-print';
 
 interface Item {
   name: string;
@@ -22,17 +17,21 @@ interface Item {
 }
 
 export default () => {
-  const navigation = useNavigation();
-
   const [folderList, setFolderList] = React.useState<Item[]>([]);
-  const [selectFolder, setSelectFolder] = React.useState("");
+  const [selectFolder, setSelectFolder] = React.useState('');
   // const [subFolderList, setSubFolderList] = React.useState([]);
-  const [selectSubFolder, setSelectSubFolder] = React.useState("");
+  const [selectSubFolder, setSelectSubFolder] = React.useState('');
   // const [fileList, setFileList] = React.useState([]);
   // const [selectFile, setSelectFile] = React.useState("");
 
   const API_URL = `http://localhost:3001`;
   // const API_URL = `http://192.168.122.1:3001`;
+
+  const printRemotePDF = async (path: string) => {
+    await RNPrint.print({
+      filePath: path,
+    });
+  };
 
   React.useEffect(() => {
     axios
@@ -46,7 +45,7 @@ export default () => {
   });
 
   function folderPressHandler(folderName: string) {
-    setSelectSubFolder("");
+    setSelectSubFolder('');
     setSelectFolder(folderName);
   }
 
@@ -54,11 +53,11 @@ export default () => {
     setSelectSubFolder(subFolderName);
   }
 
-  function filePressHandler(fileName: string) {
+  function filePressHandler(path: string) {
     // setSelectFile(fileName);
-    navigation.navigate(ScreenList.PrintPdf, {
-      filePath: `${API_URL}/pdfFile/${selectFolder}/${selectSubFolder}/${fileName}`,
-    });
+    printRemotePDF(
+      'http://192.168.104.114:3001/pdfFile/exam%20class/P5/Exam%20Eng_P5_L14%20Teacher.pdf',
+    );
   }
 
   function subFolderRenderer(subFolderName: string) {
@@ -66,8 +65,7 @@ export default () => {
       <TouchableOpacity
         key={subFolderName}
         style={styles.leftButton}
-        onPress={() => subFolderPressHandler(subFolderName)}
-      >
+        onPress={() => subFolderPressHandler(subFolderName)}>
         <Text>{subFolderName}</Text>
       </TouchableOpacity>
     );
@@ -78,8 +76,7 @@ export default () => {
       <TouchableOpacity
         key={fileName}
         style={styles.leftButton}
-        onPress={() => filePressHandler(fileName)}
-      >
+        onPress={() => filePressHandler(fileName)}>
         <Text>{fileName}</Text>
       </TouchableOpacity>
     );
@@ -88,13 +85,12 @@ export default () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView horizontal={true} contentContainerStyle={styles.topContainer}>
-        {folderList.map((item) => {
+        {folderList.map(item => {
           return (
             <TouchableOpacity
               key={item.name}
               style={styles.topButton}
-              onPress={() => folderPressHandler(item.name)}
-            >
+              onPress={() => folderPressHandler(item.name)}>
               <View>
                 <Text>{item.name}</Text>
               </View>
@@ -104,22 +100,22 @@ export default () => {
       </ScrollView>
       <View style={styles.buttomContainer}>
         <ScrollView contentContainerStyle={styles.leftContainer}>
-          {selectFolder == "" ? (
+          {selectFolder == '' ? (
             <Text>select folder</Text>
           ) : (
             folderList
-              .filter((item) => item.name == selectFolder)?.[0]
-              .children.map((item) => subFolderRenderer(item.name))
+              .filter(item => item.name == selectFolder)?.[0]
+              .children.map(item => subFolderRenderer(item.name))
           )}
         </ScrollView>
         <ScrollView contentContainerStyle={styles.rightContainer}>
-          {selectSubFolder == "" ? (
+          {selectSubFolder == '' ? (
             <Text>select sub folder</Text>
           ) : (
             folderList
-              .filter((item) => item.name == selectFolder)?.[0]
-              .children.filter((item) => item.name == selectSubFolder)?.[0]
-              .children.map((item) => fileRenderer(item.name))
+              .filter(item => item.name == selectFolder)?.[0]
+              .children.filter(item => item.name == selectSubFolder)?.[0]
+              .children.map(item => fileRenderer(item.name))
           )}
         </ScrollView>
       </View>
@@ -132,34 +128,34 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   topContainer: {
-    backgroundColor: "#d8d8d8",
+    backgroundColor: '#d8d8d8',
     paddingHorizontal: 4,
     flexGrow: 1,
   },
   topButton: {
-    borderColor: "black",
+    borderColor: 'black',
     borderWidth: 1,
     borderRadius: 8,
     padding: 8,
     margin: 4,
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   buttomContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     flex: 10,
   },
   leftContainer: {
     flex: 1,
-    backgroundColor: "#ffffd2",
+    backgroundColor: '#ffffd2',
   },
   leftButton: {
-    borderColor: "black",
+    borderColor: 'black',
     borderWidth: 1,
     padding: 8,
   },
   rightContainer: {
     flex: 1,
-    backgroundColor: "#fbe0e4",
+    backgroundColor: '#fbe0e4',
   },
 });
