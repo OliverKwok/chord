@@ -7,10 +7,10 @@ import { join } from 'path';
 
 @Module({
   imports: [
+    PdfModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
-    PdfModule,
   ],
   controllers: [AppController],
   providers: [AppService],
