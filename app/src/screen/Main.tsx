@@ -29,7 +29,7 @@ export default () => {
   // const [subFolderList, setSubFolderList] = React.useState([]);
   const [selectSubFolder, setSelectSubFolder] = React.useState("");
   // const [fileList, setFileList] = React.useState([]);
-  const [selectFile, setSelectFile] = React.useState("");
+  // const [selectFile, setSelectFile] = React.useState("");
 
   const API_URL = `http://localhost:3001`;
 
@@ -49,13 +49,15 @@ export default () => {
     setSelectFolder(folderName);
   }
 
-  function filePressHandler(fileName: string) {
-    setSelectFile(fileName);
-    navigation.navigate(ScreenList.PrintPdf);
-  }
-
   function subFolderPressHandler(subFolderName: string) {
     setSelectSubFolder(subFolderName);
+  }
+
+  function filePressHandler(fileName: string) {
+    // setSelectFile(fileName);
+    navigation.navigate(ScreenList.PrintPdf, {
+      filePath: `${API_URL}/pdfFile/${selectFolder}/${selectSubFolder}/${fileName}`,
+    });
   }
 
   function subFolderRenderer(subFolderName: string) {
@@ -131,6 +133,7 @@ const styles = StyleSheet.create({
   topContainer: {
     backgroundColor: "#d8d8d8",
     paddingHorizontal: 4,
+    flexGrow: 1,
   },
   topButton: {
     borderColor: "black",

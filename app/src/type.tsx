@@ -9,7 +9,7 @@ export enum ScreenList {
 export type RootStackParamList = {
   [ScreenList.Login]: undefined;
   [ScreenList.Main]: undefined;
-  [ScreenList.PrintPdf]: undefined;
+  [ScreenList.PrintPdf]: { filePath: string };
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
