@@ -24,7 +24,7 @@ export class PdfService {
           return r[name];
         }, level);
       });
-      return result[0].children[0].children[0].children;
+      return result[0].children[0].children[1].children;
     });
 
     return response;

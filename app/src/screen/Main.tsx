@@ -31,7 +31,8 @@ export default () => {
   // const [fileList, setFileList] = React.useState([]);
   // const [selectFile, setSelectFile] = React.useState("");
 
-  const API_URL = `http://localhost:3001`;
+  // const API_URL = `http://localhost:3001`;
+  const API_URL = `http://192.168.122.1:3001`;
 
   React.useEffect(() => {
     axios
