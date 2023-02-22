@@ -13,6 +13,7 @@
     "axios": "^1.3.3",
     "react": "18.1.0",
     "react-native": "0.70.6",
+    "react-native-network-info": "^5.2.1",
     "react-native-print": "^0.11.0"
   },
   "devDependencies": {

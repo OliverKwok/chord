@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import axios from 'axios';
+import {NetworkInfo} from 'react-native-network-info';
 import RNPrint from 'react-native-print';
 
 interface Item {
@@ -23,10 +24,10 @@ const windowWidth = Dimensions.get('window').width;
 export default () => {
   const [folderList, setFolderList] = React.useState<Item[]>([]);
   const [selectFolder, setSelectFolder] = React.useState('');
-  // const [subFolderList, setSubFolderList] = React.useState([]);
   const [selectSubFolder, setSelectSubFolder] = React.useState('');
-  // const [fileList, setFileList] = React.useState([]);
-  // const [selectFile, setSelectFile] = React.useState("");
+  const [isCheckedIp, setIsCheckedIp] = React.useState(false);
+
+  const version = 1;
 
   const API_URL = `http://localhost:3001`;
   // const API_URL = `http://192.168.122.1:3001`;
@@ -46,6 +47,13 @@ export default () => {
       .catch(function (error) {
         console.log(error);
       });
+
+    if (isCheckedIp === false) {
+      NetworkInfo.getIPV4Address().then(ipv4Address => {
+        console.log(ipv4Address);
+      });
+      setIsCheckedIp(true);
+    }
   });
 
   function folderPressHandler(folderName: string) {
@@ -57,10 +65,15 @@ export default () => {
     setSelectSubFolder(subFolderName);
   }
 
-  function filePressHandler(path: string) {
+  function filePressHandler(fileName: string) {
     // setSelectFile(fileName);
     printRemotePDF(
-      'http://192.168.104.114:3001/pdfFile/exam%20class/P5/Exam%20Eng_P5_L14%20Teacher.pdf',
+      // encodeURI(
+      //   'http://192.168.104.114:3001/pdfFile/exam class/P5/Exam Eng_P5_L14 Teacher.pdf',
+      // ),
+      encodeURI(
+        `${API_URL}/pdfFile/${selectFolder}/${selectSubFolder}/${fileName}`,
+      ),
     );
   }
 
