@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { PdfModule } from './pdf/pdf.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { VersionModule } from './version/version.module';
+import { IpModule } from './ip/ip.module';
 
 @Module({
   imports: [
@@ -11,6 +13,8 @@ import { join } from 'path';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
+    VersionModule,
+    IpModule,
   ],
   controllers: [AppController],
   providers: [AppService],

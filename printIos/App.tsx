@@ -26,10 +26,13 @@ export default () => {
   const [selectFolder, setSelectFolder] = React.useState('');
   const [selectSubFolder, setSelectSubFolder] = React.useState('');
   const [isCheckedIp, setIsCheckedIp] = React.useState(false);
+  const [checkIpPass, setCheckIpPass] = React.useState(false);
+  const [isCheckedVersion, setIsCheckedVersion] = React.useState(false);
+  const [checkVersionPass, setCheckVersionPass] = React.useState(false);
 
-  const version = 1;
+  const version = '1.0.0';
 
-  const API_URL = `http://localhost:3001`;
+  const API_URL = `http://192.168.104.114:3001`;
   // const API_URL = `http://192.168.122.1:3001`;
 
   const printRemotePDF = async (path: string) => {
@@ -39,6 +42,32 @@ export default () => {
   };
 
   React.useEffect(() => {
+    if (isCheckedIp === false) {
+      NetworkInfo.getIPV4Address().then(ipv4Address => {
+        axios
+          .post(`${API_URL}/ip`, {version: version})
+          .then(function (response) {
+            setCheckIpPass(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      });
+      setIsCheckedIp(true);
+    }
+
+    if (isCheckedVersion === false) {
+      axios
+        .post(`${API_URL}/version`, {version: version})
+        .then(function (response) {
+          setCheckVersionPass(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      setIsCheckedVersion(true);
+    }
+
     axios
       .get(`${API_URL}/pdf`)
       .then(function (response) {
@@ -47,13 +76,6 @@ export default () => {
       .catch(function (error) {
         console.log(error);
       });
-
-    if (isCheckedIp === false) {
-      NetworkInfo.getIPV4Address().then(ipv4Address => {
-        console.log(ipv4Address);
-      });
-      setIsCheckedIp(true);
-    }
   });
 
   function folderPressHandler(folderName: string) {
@@ -68,9 +90,6 @@ export default () => {
   function filePressHandler(fileName: string) {
     // setSelectFile(fileName);
     printRemotePDF(
-      // encodeURI(
-      //   'http://192.168.104.114:3001/pdfFile/exam class/P5/Exam Eng_P5_L14 Teacher.pdf',
-      // ),
       encodeURI(
         `${API_URL}/pdfFile/${selectFolder}/${selectSubFolder}/${fileName}`,
       ),
@@ -102,41 +121,51 @@ export default () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <ScrollView horizontal={true} contentContainerStyle={styles.topContainer}>
-        {folderList.map(item => {
-          return (
-            <TouchableOpacity
-              key={item.name}
-              style={styles.topButton}
-              onPress={() => folderPressHandler(item.name)}>
-              <View>
-                <Text style={styles.topButtonText}>{item.name}</Text>
-              </View>
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
-      <View style={styles.buttomContainer}>
-        <ScrollView contentContainerStyle={styles.leftContainer}>
-          {selectFolder == '' ? (
-            <Text></Text>
-          ) : (
-            folderList
-              .filter(item => item.name == selectFolder)?.[0]
-              .children.map(item => subFolderRenderer(item.name))
-          )}
-        </ScrollView>
-        <ScrollView contentContainerStyle={styles.rightContainer}>
-          {selectSubFolder == '' ? (
-            <Text></Text>
-          ) : (
-            folderList
-              .filter(item => item.name == selectFolder)?.[0]
-              .children.filter(item => item.name == selectSubFolder)?.[0]
-              .children.map(item => fileRenderer(item.name))
-          )}
-        </ScrollView>
-      </View>
+      {checkIpPass && checkVersionPass ? (
+        <>
+          <ScrollView
+            horizontal={true}
+            contentContainerStyle={styles.topContainer}>
+            {folderList.map(item => {
+              return (
+                <TouchableOpacity
+                  key={item.name}
+                  style={styles.topButton}
+                  onPress={() => folderPressHandler(item.name)}>
+                  <View>
+                    <Text style={styles.topButtonText}>{item.name}</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+          <View style={styles.buttomContainer}>
+            <ScrollView contentContainerStyle={styles.leftContainer}>
+              {selectFolder == '' ? (
+                <Text></Text>
+              ) : (
+                folderList
+                  .filter(item => item.name == selectFolder)?.[0]
+                  .children.map(item => subFolderRenderer(item.name))
+              )}
+            </ScrollView>
+            <ScrollView contentContainerStyle={styles.rightContainer}>
+              {selectSubFolder == '' ? (
+                <Text></Text>
+              ) : (
+                folderList
+                  .filter(item => item.name == selectFolder)?.[0]
+                  .children.filter(item => item.name == selectSubFolder)?.[0]
+                  .children.map(item => fileRenderer(item.name))
+              )}
+            </ScrollView>
+          </View>
+        </>
+      ) : (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{color: 'white'}}>IP or Version Not Match</Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
