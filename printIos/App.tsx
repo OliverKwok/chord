@@ -1,11 +1,13 @@
 import React from 'react';
 import {
   SafeAreaView,
+  StatusBar,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from 'react-native';
 
 import axios from 'axios';
@@ -15,6 +17,8 @@ interface Item {
   name: string;
   children: Item[];
 }
+
+const windowWidth = Dimensions.get('window').width;
 
 export default () => {
   const [folderList, setFolderList] = React.useState<Item[]>([]);
@@ -64,9 +68,9 @@ export default () => {
     return (
       <TouchableOpacity
         key={subFolderName}
-        style={styles.leftButton}
+        style={styles.downButton}
         onPress={() => subFolderPressHandler(subFolderName)}>
-        <Text>{subFolderName}</Text>
+        <Text style={styles.downButtonText}>{subFolderName}</Text>
       </TouchableOpacity>
     );
   }
@@ -75,15 +79,16 @@ export default () => {
     return (
       <TouchableOpacity
         key={fileName}
-        style={styles.leftButton}
+        style={styles.downButton}
         onPress={() => filePressHandler(fileName)}>
-        <Text>{fileName}</Text>
+        <Text style={styles.downButtonText}>{fileName}</Text>
       </TouchableOpacity>
     );
   }
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" />
       <ScrollView horizontal={true} contentContainerStyle={styles.topContainer}>
         {folderList.map(item => {
           return (
@@ -92,7 +97,7 @@ export default () => {
               style={styles.topButton}
               onPress={() => folderPressHandler(item.name)}>
               <View>
-                <Text>{item.name}</Text>
+                <Text style={styles.topButtonText}>{item.name}</Text>
               </View>
             </TouchableOpacity>
           );
@@ -101,7 +106,7 @@ export default () => {
       <View style={styles.buttomContainer}>
         <ScrollView contentContainerStyle={styles.leftContainer}>
           {selectFolder == '' ? (
-            <Text>select folder</Text>
+            <Text></Text>
           ) : (
             folderList
               .filter(item => item.name == selectFolder)?.[0]
@@ -110,7 +115,7 @@ export default () => {
         </ScrollView>
         <ScrollView contentContainerStyle={styles.rightContainer}>
           {selectSubFolder == '' ? (
-            <Text>select sub folder</Text>
+            <Text></Text>
           ) : (
             folderList
               .filter(item => item.name == selectFolder)?.[0]
@@ -125,37 +130,48 @@ export default () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#0d3b66',
     flex: 1,
   },
   topContainer: {
-    backgroundColor: '#d8d8d8',
+    backgroundColor: '#0d3b66',
     paddingHorizontal: 4,
     flexGrow: 1,
   },
   topButton: {
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 8,
-    margin: 4,
+    marginHorizontal: 8,
     flex: 1,
     justifyContent: 'center',
   },
+  topButtonText: {
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: 20,
+  },
   buttomContainer: {
     flexDirection: 'row',
-    flex: 10,
+    flex: 20,
   },
   leftContainer: {
     flex: 1,
-    backgroundColor: '#ffffd2',
+    width: windowWidth * 0.4,
+    backgroundColor: '#ebebeb',
   },
-  leftButton: {
-    borderColor: 'black',
-    borderWidth: 1,
-    padding: 8,
+  downButton: {
+    borderBottomColor: '#0d3b66',
+    borderWidth: 0,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingHorizontal: 4,
+    paddingVertical: 12,
+    marginHorizontal: 8,
+  },
+  downButtonText: {
+    fontSize: 20,
+    flexWrap: 'wrap',
   },
   rightContainer: {
     flex: 1,
-    backgroundColor: '#fbe0e4',
+    width: windowWidth * 0.6,
+    backgroundColor: 'white',
   },
 });
