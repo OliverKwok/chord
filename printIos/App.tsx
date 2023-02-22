@@ -32,8 +32,8 @@ export default () => {
 
   const version = '1.0.0';
 
-  const API_URL = `http://192.168.104.114:3001`;
-  // const API_URL = `http://192.168.122.1:3001`;
+  const API_URL = `http://3.210.50.23`; // ec2
+  // const API_URL = `http://192.168.104.114:3001`; // local
 
   const printRemotePDF = async (path: string) => {
     await RNPrint.print({
@@ -45,7 +45,7 @@ export default () => {
     if (isCheckedIp === false) {
       NetworkInfo.getIPV4Address().then(ipv4Address => {
         axios
-          .post(`${API_URL}/ip`, {version: version})
+          .post(`${API_URL}/ip`, {ip: ipv4Address})
           .then(function (response) {
             setCheckIpPass(response.data);
           })
@@ -163,7 +163,7 @@ export default () => {
         </>
       ) : (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{color: 'white'}}>IP or Version Not Match</Text>
+          <Text style={{color: 'white'}}>Loading</Text>
         </View>
       )}
     </SafeAreaView>

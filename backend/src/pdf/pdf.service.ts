@@ -11,7 +11,7 @@ export class PdfService {
   }
 
   findAll() {
-    const response = glob('./public' + '**/**/*').then((pdfArray) => {
+    const response = glob('../public' + '**/**/*').then((pdfArray) => {
       let result = [];
       let level = { result };
 
