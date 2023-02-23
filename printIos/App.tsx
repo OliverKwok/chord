@@ -9,6 +9,7 @@ import {
   View,
   Dimensions,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 
 import axios from 'axios';
@@ -205,7 +206,10 @@ export default () => {
         </>
       ) : (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{color: 'white'}}>Loading</Text>
+          <View style={{marginBottom: 16}}>
+            <Text style={{color: 'white'}}>Checking the Version</Text>
+          </View>
+          <ActivityIndicator size="large" color="white" />
         </View>
       )}
     </SafeAreaView>
