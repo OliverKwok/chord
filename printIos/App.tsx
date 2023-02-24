@@ -29,6 +29,7 @@ export default () => {
   const [folderList, setFolderList] = React.useState<Item[]>([]);
   const [selectFolder, setSelectFolder] = React.useState('');
   const [selectSubFolder, setSelectSubFolder] = React.useState('');
+
   const [checkIpPass, setCheckIpPass] = React.useState(false);
   const [checkVersionPass, setCheckVersionPass] = React.useState(false);
   const [showSpinner, setShowSpinner] = React.useState(false);
@@ -38,8 +39,8 @@ export default () => {
 
   const longFolderName = 'VajRn5YpJk3Vxf7b';
 
-  // const API_URL = `http://3.210.50.23`; // ec2
-  const API_URL = `http://192.168.104.114:3001`; // local
+  const API_URL = `http://3.210.50.23`; // ec2
+  // const API_URL = `http://192.168.104.114:3001`; // local
 
   const checkExternalIp = async () => {
     const ipAddress = await axios.get('https://api.ipify.org?format=json');
@@ -81,12 +82,8 @@ export default () => {
       encodeURI(
         `${API_URL}/pdfFile${longFolderName}/${selectFolder}/${selectSubFolder}/${fileName}`,
       ),
+      fileName,
     );
-    // printRemotePDF(
-    // encodeURI(
-    //   `${API_URL}/pdfFile${longFolderName}/${selectFolder}/${selectSubFolder}/${fileName}`,
-    // ),
-    // );
   }
 
   function subFolderRenderer(subFolderName: string) {
@@ -118,7 +115,7 @@ export default () => {
   };
 
   // iOS Only
-  const silentPrint = async (path: string) => {
+  const silentPrint = async (path: string, fileName: string) => {
     const checkIpBeforePrint = await checkExternalIp();
     if (!checkIpBeforePrint) {
       Alert.alert('Reminder', 'Please Print At Shop Only', [
@@ -134,21 +131,26 @@ export default () => {
       return;
     }
 
-    await delay(3000);
+    await axios.post(`${API_URL}/stats`, {
+      selectFolder: selectFolder,
+      selectSubFolder: selectSubFolder,
+      selectFile: fileName,
+    });
+    // await delay(3000);
 
-    // const jobName = await RNPrint.print({
-    //   printerURL: selectedPrinter.url,
-    //     filePath: path,
-    // });
+    const jobName = await RNPrint.print({
+      printerURL: selectedPrinter.url,
+      filePath: path,
+    });
 
     setShowSpinner(false);
   };
 
-  const delay = async (ms: number) => {
-    return new Promise(resolve => {
-      setTimeout(resolve as any, ms);
-    });
-  };
+  // const delay = async (ms: number) => {
+  //   return new Promise(resolve => {
+  //     setTimeout(resolve as any, ms);
+  //   });
+  // };
 
   return (
     <SafeAreaView style={styles.container}>
