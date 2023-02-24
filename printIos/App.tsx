@@ -10,6 +10,8 @@ import {
   Dimensions,
   FlatList,
   ActivityIndicator,
+  Button,
+  Alert,
 } from 'react-native';
 
 import axios from 'axios';
@@ -30,6 +32,7 @@ export default () => {
   const [checkIpPass, setCheckIpPass] = React.useState(false);
   const [checkVersionPass, setCheckVersionPass] = React.useState(false);
   const [showSpinner, setShowSpinner] = React.useState(false);
+  const [selectedPrinter, setSelectedPrinter] = React.useState<any>(null);
 
   const version = '1.1.2';
 
@@ -38,56 +41,29 @@ export default () => {
   // const API_URL = `http://3.210.50.23`; // ec2
   const API_URL = `http://192.168.104.114:3001`; // local
 
-  const printRemotePDF = async (path: string) => {
-    await RNPrint.print({
-      filePath: path,
-    });
-    setShowSpinner(false);
-  };
-
   const checkExternalIp = async () => {
-    await fetch('https://api.ipify.org?format=json')
-      .then(response => response.json())
-      .then(data => {
-        console.log('External IP address:', data.ip);
-        callIpApi(data.ip);
-      })
-      .catch(error => {
-        console.error('Error getting external IP address:', error);
-      });
+    const ipAddress = await axios.get('https://api.ipify.org?format=json');
+    const response = await axios.post(`${API_URL}/ip`, {ip: ipAddress.data});
+    setCheckIpPass(response.data);
+    return response.data;
   };
 
-  const callIpApi = (ipAddress: string) => {
-    axios
-      .post(`${API_URL}/ip`, {ip: ipAddress})
-      .then(function (response) {
-        setCheckIpPass(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  const checkVersion = async () => {
+    const versionResponse = await axios.post(`${API_URL}/version`, {
+      version: version,
+    });
+    setCheckVersionPass(versionResponse.data);
+  };
+
+  const fetchPdfJson = async () => {
+    const pdfResponse = await axios.get(`${API_URL}/pdf`);
+    setFolderList(pdfResponse.data);
   };
 
   React.useEffect(() => {
     checkExternalIp();
-
-    axios
-      .post(`${API_URL}/version`, {version: version})
-      .then(function (response) {
-        setCheckVersionPass(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
-    axios
-      .get(`${API_URL}/pdf`)
-      .then(function (response) {
-        setFolderList(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    checkVersion();
+    fetchPdfJson();
   }, []);
 
   function folderPressHandler(folderName: string) {
@@ -100,13 +76,17 @@ export default () => {
   }
 
   function filePressHandler(fileName: string) {
-    checkExternalIp();
-    printRemotePDF(
+    setShowSpinner(true);
+    silentPrint(
       encodeURI(
         `${API_URL}/pdfFile${longFolderName}/${selectFolder}/${selectSubFolder}/${fileName}`,
       ),
     );
-    setShowSpinner(true);
+    // printRemotePDF(
+    // encodeURI(
+    //   `${API_URL}/pdfFile${longFolderName}/${selectFolder}/${selectSubFolder}/${fileName}`,
+    // ),
+    // );
   }
 
   function subFolderRenderer(subFolderName: string) {
@@ -130,6 +110,45 @@ export default () => {
       </TouchableOpacity>
     );
   }
+
+  // iOS Only
+  const selectPrinter = async () => {
+    const selectedPrinter = await RNPrint.selectPrinter({x: '100', y: '100'});
+    setSelectedPrinter(selectedPrinter);
+  };
+
+  // iOS Only
+  const silentPrint = async (path: string) => {
+    const checkIpBeforePrint = await checkExternalIp();
+    if (!checkIpBeforePrint) {
+      Alert.alert('Reminder', 'Please Print At Shop Only', [
+        {text: 'OK', onPress: () => setShowSpinner(false)},
+      ]);
+      return;
+    }
+
+    if (!selectedPrinter) {
+      Alert.alert('Reminder', 'Please Select Printer', [
+        {text: 'OK', onPress: () => setShowSpinner(false)},
+      ]);
+      return;
+    }
+
+    await delay(3000);
+
+    // const jobName = await RNPrint.print({
+    //   printerURL: selectedPrinter.url,
+    //     filePath: path,
+    // });
+
+    setShowSpinner(false);
+  };
+
+  const delay = async (ms: number) => {
+    return new Promise(resolve => {
+      setTimeout(resolve as any, ms);
+    });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -195,6 +214,19 @@ export default () => {
               )}
             </View>
           </View>
+          <View style={styles.footerContainer}>
+            <Button onPress={selectPrinter} title="Select Printer" />
+            <View style={{paddingBottom: 12}}>
+              {!selectedPrinter ? (
+                <Text style={{textAlign: 'center'}}>Not Selected</Text>
+              ) : (
+                <Text
+                  style={{
+                    textAlign: 'center',
+                  }}>{`Selected Printer Name: ${selectedPrinter.name}`}</Text>
+              )}
+            </View>
+          </View>
         </>
       ) : (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -254,6 +286,9 @@ const styles = StyleSheet.create({
   },
   rightContainer: {
     width: windowWidth * 0.6,
+    backgroundColor: 'white',
+  },
+  footerContainer: {
     backgroundColor: 'white',
   },
 });
