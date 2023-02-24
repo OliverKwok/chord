@@ -33,6 +33,8 @@ export default () => {
 
   const version = '1.0.0';
 
+  const longFolderName = 'VajRn5YpJk3Vxf7b';
+
   const API_URL = `http://3.210.50.23`; // ec2
   // const API_URL = `http://192.168.104.114:3001`; // local
 
@@ -98,7 +100,7 @@ export default () => {
   }
 
   function filePressHandler(fileName: string) {
-    // setSelectFile(fileName);
+    checkExternalIp();
     printRemotePDF(
       encodeURI(
         `${API_URL}/pdfFile/${selectFolder}/${selectSubFolder}/${fileName}`,
@@ -173,16 +175,6 @@ export default () => {
                 />
               )}
             </View>
-            {/* <ScrollView contentContainerStyle={styles.rightContainer}>
-              {selectSubFolder == '' ? (
-                <Text></Text>
-              ) : (
-                folderList
-                  .filter(item => item.name == selectFolder)?.[0]
-                  .children.filter(item => item.name == selectSubFolder)?.[0]
-                  .children.map(item => fileRenderer(item.name))
-              )}
-            </ScrollView> */}
             <View style={styles.rightContainer}>
               {selectSubFolder === '' ? (
                 <View style={{flex: 1, justifyContent: 'center'}}>
