@@ -31,12 +31,12 @@ export default () => {
   const [checkVersionPass, setCheckVersionPass] = React.useState(false);
   const [showSpinner, setShowSpinner] = React.useState(false);
 
-  const version = '1.0.0';
+  const version = '1.1.2';
 
   const longFolderName = 'VajRn5YpJk3Vxf7b';
 
-  const API_URL = `http://3.210.50.23`; // ec2
-  // const API_URL = `http://192.168.104.114:3001`; // local
+  // const API_URL = `http://3.210.50.23`; // ec2
+  const API_URL = `http://192.168.104.114:3001`; // local
 
   const printRemotePDF = async (path: string) => {
     await RNPrint.print({
@@ -103,7 +103,7 @@ export default () => {
     checkExternalIp();
     printRemotePDF(
       encodeURI(
-        `${API_URL}/pdfFile/${selectFolder}/${selectSubFolder}/${fileName}`,
+        `${API_URL}/pdfFile${longFolderName}/${selectFolder}/${selectSubFolder}/${fileName}`,
       ),
     );
     setShowSpinner(true);

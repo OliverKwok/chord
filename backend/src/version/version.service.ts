@@ -5,7 +5,7 @@ import { UpdateVersionDto } from './dto/update-version.dto';
 @Injectable()
 export class VersionService {
   create(createVersionDto: CreateVersionDto) {
-    if (createVersionDto.version === '1.0.0') return true;
+    if (createVersionDto.version === '1.1.2') return true;
     return false;
   }
 
