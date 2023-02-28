@@ -18,15 +18,20 @@ import axios from 'axios';
 import RNPrint from 'react-native-print';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-interface Item {
+interface PdfList {
   name: string;
-  children: Item[];
+  children: PdfList[];
+}
+
+interface StudentList {
+  id: string;
+  name: string;
 }
 
 const windowWidth = Dimensions.get('window').width;
 
 export default () => {
-  const [folderList, setFolderList] = React.useState<Item[]>([]);
+  const [folderList, setFolderList] = React.useState<PdfList[]>([]);
   const [selectFolder, setSelectFolder] = React.useState('');
   const [selectSubFolder, setSelectSubFolder] = React.useState('');
 
@@ -34,6 +39,8 @@ export default () => {
   const [checkVersionPass, setCheckVersionPass] = React.useState(false);
   const [showSpinner, setShowSpinner] = React.useState(false);
   // const [selectedPrinter, setSelectedPrinter] = React.useState<any>(null);
+
+  const [studentList, setStudentList] = React.useState<StudentList[]>([]);
 
   const version = '1.1.2';
 
@@ -61,10 +68,24 @@ export default () => {
     setFolderList(pdfResponse.data);
   };
 
+  const fetchStudentJson = async () => {
+    const studentResponse = [
+      {id: '1', name: 'StudentA'},
+      {id: '2', name: 'StudentB'},
+      {id: '3', name: 'StudentC'},
+      {id: '4', name: 'StudentD'},
+      {id: '5', name: 'StudentE'},
+      {id: '6', name: 'StudentF'},
+      {id: '7', name: 'StudentG'},
+    ];
+    setStudentList(studentResponse);
+  };
+
   React.useEffect(() => {
     checkExternalIp();
     checkVersion();
     fetchPdfJson();
+    fetchStudentJson();
   }, []);
 
   function folderPressHandler(folderName: string) {
@@ -219,6 +240,20 @@ export default () => {
               )}
             </View>
           </View>
+          <View style={styles.footerContainer}>
+            <FlatList
+              horizontal={true}
+              data={studentList}
+              renderItem={itemData => (
+                <TouchableOpacity>
+                  <Text style={styles.footerButtonText}>
+                    {itemData.item.name}
+                  </Text>
+                </TouchableOpacity>
+              )}
+              keyExtractor={item => item.id}
+            />
+          </View>
           {/* silent print function, not use it now */}
           {/* <View style={styles.footerContainer}>
             <Button onPress={selectPrinter} title="Select Printer" />
@@ -294,7 +329,12 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.6,
     backgroundColor: 'white',
   },
-  // footerContainer: {
-  //   backgroundColor: 'white',
-  // },
+  footerContainer: {
+    backgroundColor: 'white',
+  },
+  footerButtonText: {
+    fontSize: 20,
+    marginHorizontal: 8,
+    marginVertical: 12,
+  },
 });
