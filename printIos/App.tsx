@@ -33,7 +33,7 @@ export default () => {
   const [checkIpPass, setCheckIpPass] = React.useState(false);
   const [checkVersionPass, setCheckVersionPass] = React.useState(false);
   const [showSpinner, setShowSpinner] = React.useState(false);
-  const [selectedPrinter, setSelectedPrinter] = React.useState<any>(null);
+  // const [selectedPrinter, setSelectedPrinter] = React.useState<any>(null);
 
   const version = '1.1.2';
 
@@ -78,7 +78,7 @@ export default () => {
 
   function filePressHandler(fileName: string) {
     setShowSpinner(true);
-    silentPrint(
+    sendToPrint(
       encodeURI(
         `${API_URL}/pdfFile${longFolderName}/${selectFolder}/${selectSubFolder}/${fileName}`,
       ),
@@ -109,13 +109,13 @@ export default () => {
   }
 
   // iOS Only
-  const selectPrinter = async () => {
-    const selectedPrinter = await RNPrint.selectPrinter({x: '100', y: '100'});
-    setSelectedPrinter(selectedPrinter);
-  };
+  // const selectPrinter = async () => {
+  //   const selectedPrinter = await RNPrint.selectPrinter({x: '100', y: '100'});
+  //   setSelectedPrinter(selectedPrinter);
+  // };
 
   // iOS Only
-  const silentPrint = async (path: string, fileName: string) => {
+  const sendToPrint = async (path: string, fileName: string) => {
     const checkIpBeforePrint = await checkExternalIp();
     if (!checkIpBeforePrint) {
       Alert.alert('Reminder', 'Please Print At Shop Only', [
@@ -124,33 +124,36 @@ export default () => {
       return;
     }
 
-    if (!selectedPrinter) {
-      Alert.alert('Reminder', 'Please Select Printer', [
-        {text: 'OK', onPress: () => setShowSpinner(false)},
-      ]);
-      return;
-    }
+    // if (!selectedPrinter) {
+    //   Alert.alert('Reminder', 'Please Select Printer', [
+    //     {text: 'OK', onPress: () => setShowSpinner(false)},
+    //   ]);
+    //   return;
+    // }
 
     await axios.post(`${API_URL}/stats`, {
       selectFolder: selectFolder,
       selectSubFolder: selectSubFolder,
       selectFile: fileName,
     });
-    // await delay(3000);
 
-    const jobName = await RNPrint.print({
-      printerURL: selectedPrinter.url,
+    await RNPrint.print({
+      // printerURL: selectedPrinter.url,
       filePath: path,
     });
 
     setShowSpinner(false);
   };
 
+  // for promise testing
+
   // const delay = async (ms: number) => {
   //   return new Promise(resolve => {
   //     setTimeout(resolve as any, ms);
   //   });
   // };
+
+  // await delay(3000);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -216,7 +219,8 @@ export default () => {
               )}
             </View>
           </View>
-          <View style={styles.footerContainer}>
+          {/* silent print function, not use it now */}
+          {/* <View style={styles.footerContainer}>
             <Button onPress={selectPrinter} title="Select Printer" />
             <View style={{paddingBottom: 12}}>
               {!selectedPrinter ? (
@@ -228,7 +232,7 @@ export default () => {
                   }}>{`Selected Printer Name: ${selectedPrinter.name}`}</Text>
               )}
             </View>
-          </View>
+          </View> */}
         </>
       ) : (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -290,7 +294,7 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.6,
     backgroundColor: 'white',
   },
-  footerContainer: {
-    backgroundColor: 'white',
-  },
+  // footerContainer: {
+  //   backgroundColor: 'white',
+  // },
 });
