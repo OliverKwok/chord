@@ -46,7 +46,8 @@ export default () => {
 
   const longFolderName = 'VajRn5YpJk3Vxf7b';
 
-  const API_URL = `http://3.210.50.23`; // ec2
+  const API_URL = `https://chord-pos.ga`; // ec2 with domain
+  // const API_URL = `http://3.210.50.23`; // ec2
   // const API_URL = `http://192.168.104.114:3001`; // local
 
   const checkExternalIp = async () => {
@@ -240,7 +241,7 @@ export default () => {
               )}
             </View>
           </View>
-          <View style={styles.footerContainer}>
+          {/* <View style={styles.footerContainer}>
             <FlatList
               horizontal={true}
               data={studentList}
@@ -253,7 +254,7 @@ export default () => {
               )}
               keyExtractor={item => item.id}
             />
-          </View>
+          </View> */}
           {/* silent print function, not use it now */}
           {/* <View style={styles.footerContainer}>
             <Button onPress={selectPrinter} title="Select Printer" />
