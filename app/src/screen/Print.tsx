@@ -42,7 +42,7 @@ export default () => {
 
   const [studentList, setStudentList] = React.useState<StudentList[]>([]);
 
-  const version = '1.1.2';
+  const version = '1.1.5';
 
   const longFolderName = 'VajRn5YpJk3Vxf7b';
 
