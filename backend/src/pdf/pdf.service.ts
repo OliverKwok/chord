@@ -3,6 +3,13 @@ import { CreatePdfDto } from './dto/create-pdf.dto';
 import { UpdatePdfDto } from './dto/update-pdf.dto';
 import { pdfList } from './pdfList';
 
+import * as fs from 'fs';
+import * as path from 'path';
+
+const fileName = 'pdfList.json';
+const filePathBeforeFileName = __dirname.replace('dist/pdf', '');
+const absolutePathWithFileName = path.join(filePathBeforeFileName, fileName);
+
 const glob = require('glob-promise');
 
 @Injectable()
@@ -12,11 +19,12 @@ export class PdfService {
   }
 
   getPdfJson() {
-    return pdfList;
+    const data = fs.readFileSync(absolutePathWithFileName, 'utf8');
+    return data;
   }
 
-  genPdfJson() {
-    const output = glob('../public' + '**/**/*').then((pdfArray) => {
+  async genPdfJson() {
+    const output = await glob('../public' + '**/**/*').then((pdfArray) => {
       let result = [];
       let level = { result };
 
@@ -32,7 +40,13 @@ export class PdfService {
       return result[0].children[0].children[1].children;
     });
 
-    return output;
+    try {
+      fs.writeFileSync(absolutePathWithFileName, JSON.stringify(output));
+    } catch (error) {
+      console.error('Error writing to file:', error);
+    }
+
+    return 'success';
   }
 
   findOne(id: number) {
