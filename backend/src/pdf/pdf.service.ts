@@ -6,10 +6,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const fileName = 'pdfList.json';
-const filePathBeforeFileName = __dirname.replace('dist/pdf', '');
-const absolutePathWithFileName = path.join(filePathBeforeFileName, fileName);
-
-console.log(absolutePathWithFileName);
+const jsonPath = path.join(__dirname.replace('/dist/pdf', ''), fileName);
 
 const glob = require('glob-promise');
 
@@ -20,7 +17,7 @@ export class PdfService {
   }
 
   getPdfJson() {
-    const data = fs.readFileSync(absolutePathWithFileName, 'utf8');
+    const data = fs.readFileSync(jsonPath, 'utf8');
     return data;
   }
 
@@ -42,7 +39,7 @@ export class PdfService {
     });
 
     try {
-      fs.writeFileSync(absolutePathWithFileName, JSON.stringify(output));
+      fs.writeFileSync(jsonPath, JSON.stringify(output));
     } catch (error) {
       console.error('Error writing to file:', error);
     }
