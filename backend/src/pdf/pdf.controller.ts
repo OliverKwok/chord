@@ -13,8 +13,13 @@ export class PdfController {
   }
 
   @Get()
-  findAll() {
-    return this.pdfService.findAll();
+  getPdfJson() {
+    return this.pdfService.getPdfJson();
+  }
+
+  @Get('gen')
+  genPdfJson() {
+    return this.pdfService.genPdfJson();
   }
 
   @Get(':id')

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePdfDto } from './dto/create-pdf.dto';
 import { UpdatePdfDto } from './dto/update-pdf.dto';
+import { pdfList } from './pdfList';
 
 const glob = require('glob-promise');
 
@@ -10,8 +11,12 @@ export class PdfService {
     return 'This action adds a new pdf';
   }
 
-  findAll() {
-    const response = glob('../public' + '**/**/*').then((pdfArray) => {
+  getPdfJson() {
+    return pdfList;
+  }
+
+  genPdfJson() {
+    const output = glob('../public' + '**/**/*').then((pdfArray) => {
       let result = [];
       let level = { result };
 
@@ -27,7 +32,7 @@ export class PdfService {
       return result[0].children[0].children[1].children;
     });
 
-    return response;
+    return output;
   }
 
   findOne(id: number) {
