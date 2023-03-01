@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePdfDto } from './dto/create-pdf.dto';
 import { UpdatePdfDto } from './dto/update-pdf.dto';
-import { pdfList } from './pdfList';
 
 import * as fs from 'fs';
 import * as path from 'path';
@@ -9,6 +8,8 @@ import * as path from 'path';
 const fileName = 'pdfList.json';
 const filePathBeforeFileName = __dirname.replace('dist/pdf', '');
 const absolutePathWithFileName = path.join(filePathBeforeFileName, fileName);
+
+console.log(absolutePathWithFileName);
 
 const glob = require('glob-promise');
 
