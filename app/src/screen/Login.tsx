@@ -7,6 +7,10 @@ import {ScreenList} from '../type';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBook} from '@fortawesome/free-solid-svg-icons';
 
+import Config from 'react-native-config';
+
+console.log(Config.API_URL);
+
 const LoginForm = () => {
   const navigation = useNavigation();
 

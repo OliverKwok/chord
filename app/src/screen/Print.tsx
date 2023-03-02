@@ -13,6 +13,7 @@ import {
   Alert,
 } from 'react-native';
 import {version} from '../../package.json';
+import Config from 'react-native-config';
 
 import axios from 'axios';
 import RNPrint from 'react-native-print';
@@ -44,9 +45,7 @@ export default () => {
 
   const longFolderName = 'VajRn5YpJk3Vxf7b';
 
-  const API_URL = `https://chord-pos.ga`; // ec2 with domain
-  // const API_URL = `http://3.210.50.23`; // ec2
-  // const API_URL = `http://192.168.104.114:3001`; // local
+  const API_URL = Config.API_URL;
 
   const checkExternalIp = async () => {
     const ipAddress = await axios.get('https://api.ipify.org?format=json');
