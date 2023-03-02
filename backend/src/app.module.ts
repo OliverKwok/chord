@@ -14,6 +14,7 @@ import { VersionModule } from './version/version.module';
 import { IpModule } from './ip/ip.module';
 import { StatsModule } from './stats/stats.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 Config();
 
@@ -32,6 +33,7 @@ Config();
     IpModule,
     StatsModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

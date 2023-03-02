@@ -45,8 +45,8 @@ export default () => {
 
   const longFolderName = 'VajRn5YpJk3Vxf7b';
 
-  const API_URL = Config.API_URL;
-  // const API_URL = `http://localhost:3001`;
+  // const API_URL = Config.API_URL;
+  const API_URL = `http://localhost:3001`;
 
   const checkExternalIp = async () => {
     const ipAddress = await axios.get('https://api.ipify.org?format=json');
