@@ -321,6 +321,7 @@ const styles = StyleSheet.create({
   downButtonText: {
     fontSize: 20,
     flexWrap: 'wrap',
+    color: 'black',
   },
   downNotSelectedText: {
     textAlign: 'center',

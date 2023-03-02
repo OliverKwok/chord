@@ -29,7 +29,7 @@ const LoginForm = () => {
         </View>
         <View>
           <Text style={{fontSize: 30, fontWeight: 'bold', color: 'white'}}>
-            Chord Edu
+            Chord
           </Text>
         </View>
       </View>
@@ -37,6 +37,7 @@ const LoginForm = () => {
         <TextInput
           style={styles.input}
           placeholder="Username"
+          placeholderTextColor={'#6f6f6f'}
           autoCapitalize="none"
           autoCorrect={false}
           onChangeText={text => setUsername(text)}
@@ -45,6 +46,7 @@ const LoginForm = () => {
         <TextInput
           style={styles.input}
           placeholder="Password"
+          placeholderTextColor={'#6f6f6f'}
           onChangeText={text => setPassword(text)}
           value={password}
           secureTextEntry
@@ -81,6 +83,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#0d3b66',
     marginBottom: 20,
+    color: 'black',
   },
 });
 

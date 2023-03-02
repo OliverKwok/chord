@@ -36,7 +36,11 @@ function Main() {
                   color={focused ? '#0d3b66' : '#666666'}
                 />
               </View>
-              <Text style={[styles.tabText, focused && {fontWeight: 'bold'}]}>
+              <Text
+                style={[
+                  styles.tabText,
+                  focused && {fontWeight: 'bold', color: '#0d3b66'},
+                ]}>
                 Print
               </Text>
             </View>
@@ -56,7 +60,11 @@ function Main() {
                   color={focused ? '#0d3b66' : '#666666'}
                 />
               </View>
-              <Text style={[styles.tabText, focused && {fontWeight: 'bold'}]}>
+              <Text
+                style={[
+                  styles.tabText,
+                  focused && {fontWeight: 'bold', color: '#0d3b66'},
+                ]}>
                 Pos
               </Text>
             </View>
