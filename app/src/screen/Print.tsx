@@ -10,9 +10,9 @@ import {
   Dimensions,
   FlatList,
   ActivityIndicator,
-  Button,
   Alert,
 } from 'react-native';
+import {version} from '../../package.json';
 
 import axios from 'axios';
 import RNPrint from 'react-native-print';
@@ -41,8 +41,6 @@ export default () => {
   // const [selectedPrinter, setSelectedPrinter] = React.useState<any>(null);
 
   const [studentList, setStudentList] = React.useState<StudentList[]>([]);
-
-  const version = '1.1.5';
 
   const longFolderName = 'VajRn5YpJk3Vxf7b';
 

@@ -7,8 +7,6 @@ import {ScreenList} from '../type';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBook} from '@fortawesome/free-solid-svg-icons';
 
-// const {width, height} = Dimensions.get('window');
-
 const LoginForm = () => {
   const navigation = useNavigation();
 
@@ -29,7 +27,7 @@ const LoginForm = () => {
         </View>
         <View>
           <Text style={{fontSize: 30, fontWeight: 'bold', color: 'white'}}>
-            Chord
+            {/* Chord */}
           </Text>
         </View>
       </View>
