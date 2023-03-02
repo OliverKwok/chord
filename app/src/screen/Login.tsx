@@ -9,9 +9,10 @@ import {faBook} from '@fortawesome/free-solid-svg-icons';
 
 import Config from 'react-native-config';
 
-console.log(Config.API_URL);
-
 const LoginForm = () => {
+  const API_URL = Config.API_URL;
+  // const API_URL = `http://localhost:3001`;
+
   const navigation = useNavigation();
 
   const [username, setUsername] = useState('');
