@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, TextInput, Button, StyleSheet, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
 
 import {ScreenList} from '../type';
 
@@ -18,9 +19,24 @@ const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    const response = await axios.post(`${API_URL}/auth/login`, {
+      username: username,
+      password: password,
+    });
+
+    // TODO wrong username or password handling
+
+    const responseProfile = await axios.get(`${API_URL}/profile`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${response.data.access_token}`,
+      },
+    });
+
+    console.log(responseProfile.data);
     // if (username === Config.USERNAME && password === Config.PASSWORD) {
-    navigation.navigate(ScreenList.Main);
+    // navigation.navigate(ScreenList.Main);
     // }
   };
 
