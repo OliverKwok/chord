@@ -36,7 +36,7 @@ const LoginForm = () => {
 
     console.log(responseProfile.data);
     // if (username === Config.USERNAME && password === Config.PASSWORD) {
-    // navigation.navigate(ScreenList.Main);
+    navigation.navigate(ScreenList.Main);
     // }
   };
 
