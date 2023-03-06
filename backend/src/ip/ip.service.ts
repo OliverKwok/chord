@@ -5,7 +5,6 @@ import { UpdateIpDto } from './dto/update-ip.dto';
 @Injectable()
 export class IpService {
   create(createIpDto: CreateIpDto) {
-    console.log(createIpDto.ip);
     if (createIpDto.ip) return true;
     return false;
   }

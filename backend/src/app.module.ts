@@ -27,7 +27,7 @@ Config();
     }),
     PdfModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
+      rootPath: join(__dirname.replace('/dist/src', ''), 'public'),
     }),
     VersionModule,
     IpModule,

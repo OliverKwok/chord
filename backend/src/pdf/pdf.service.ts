@@ -6,7 +6,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const fileName = 'pdfList.json';
-const jsonPath = path.join(__dirname.replace('/dist/pdf', ''), fileName);
+const jsonPath = path.join(__dirname.replace('/dist/src/pdf', ''), fileName);
+console.log(jsonPath);
 
 const glob = require('glob-promise');
 
@@ -22,7 +23,9 @@ export class PdfService {
   }
 
   async genPdfJson() {
-    const output = await glob('../public' + '**/**/*').then((pdfArray) => {
+    const output = await glob(
+      path.join(__dirname.replace('/dist/src/pdf', ''), 'public') + '**/**/*',
+    ).then((pdfArray) => {
       let result = [];
       let level = { result };
 
@@ -35,7 +38,18 @@ export class PdfService {
           return r[name];
         }, level);
       });
-      return result[0].children[0].children[1].children;
+
+      function findPublicFolderInJson(input) {
+        if (input[0].name == 'public') {
+          result = input[0].children[1].children;
+        } else {
+          findPublicFolderInJson(input[0].children);
+        }
+      }
+
+      findPublicFolderInJson(result);
+
+      return result;
     });
 
     try {

@@ -5,7 +5,6 @@ import { UpdateStatDto } from './dto/update-stat.dto';
 @Injectable()
 export class StatsService {
   create(createStatDto: CreateStatDto) {
-    console.log(createStatDto);
     return 'This action adds a new stat';
   }
 
