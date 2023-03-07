@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
-import {View, TextInput, Button, StyleSheet, Text} from 'react-native';
+import {View, TextInput, Button, StyleSheet, Text, Alert} from 'react-native';
+
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-
-import {ScreenList} from '../type';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBook} from '@fortawesome/free-solid-svg-icons';
+
+import {ScreenList} from '../type';
 
 import Config from 'react-native-config';
 
@@ -19,25 +20,48 @@ const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const storeJwtToken = async (value: string) => {
+    try {
+      await AsyncStorage.setItem('@storage_Key', value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const useLocalJwtToken = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@storage_Key');
+      if (value !== null) {
+        // check user by JWT token
+        const response = await axios.get(`${API_URL}/profile`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(value).access_token}`,
+          },
+        });
+        if (response.data.username) navigation.navigate(ScreenList.Main);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  React.useEffect(() => {
+    useLocalJwtToken();
+  }, []);
+
   const handleLogin = async () => {
     const response = await axios.post(`${API_URL}/auth/login`, {
       username: username,
       password: password,
     });
 
-    // TODO wrong username or password handling
-
-    const responseProfile = await axios.get(`${API_URL}/profile`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${response.data.access_token}`,
-      },
-    });
-
-    console.log(responseProfile.data);
-    // if (username === Config.USERNAME && password === Config.PASSWORD) {
-    navigation.navigate(ScreenList.Main);
-    // }
+    if (response.data.access_token) {
+      storeJwtToken(JSON.stringify(response.data));
+      navigation.navigate(ScreenList.Main);
+    } else {
+      Alert.alert('Cannot login');
+    }
   };
 
   return (

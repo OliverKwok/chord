@@ -7,8 +7,6 @@ import * as path from 'path';
 
 const fileName = 'pdfList.json';
 const jsonPath = path.join(__dirname.replace('/dist/src/pdf', ''), fileName);
-console.log(jsonPath);
-
 const glob = require('glob-promise');
 
 @Injectable()

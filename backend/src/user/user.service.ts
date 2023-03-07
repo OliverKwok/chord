@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CheckUserDto } from './dto/check-user.dto';
 
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { InjectKnex, Knex } from 'nestjs-knex';
@@ -11,19 +10,25 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(@InjectKnex() private readonly knex: Knex) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async check(checkUserDto: CheckUserDto) {
     try {
-      const newUser = await this.knex
+      const user = await this.knex
         .table('users')
-        .insert({
-          username: 'chord',
-          password: '1122',
-        })
-        .returning(['username', 'password']);
+        .select('id', 'username')
+        .where({
+          username: checkUserDto.username,
+          password: checkUserDto.password,
+        });
 
-      return newUser[0];
+      if (user.length === 0) {
+        throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+      } else {
+        return user[0];
+      }
     } catch (err) {
-      throw new HttpException(err, HttpStatus.BAD_REQUEST);
+      throw new HttpException('message', 400, {
+        cause: new Error('Cannot connect to the DB'),
+      });
     }
   }
 
@@ -37,10 +42,6 @@ export class UserService {
       username: username,
       password: await bcrypt.hash('1122', 10),
     };
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
   }
 
   remove(id: number) {
