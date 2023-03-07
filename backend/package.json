@@ -20,7 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "knex:tableCreate": "scripty",
     "knex:tableDelete": "scripty",
-    "knex:data": "scripty"
+    "knex:data": "scripty",
+    "psql:login": "scripty"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

@@ -26,7 +26,6 @@ export class AppController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   async profile(@Request() req) {
-    return req.user;
-    // return this.authService.login(req.user);
+    return req.user; // pre-set in nestjs, so we don't use "username"
   }
 }

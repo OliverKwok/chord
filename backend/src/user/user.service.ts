@@ -11,24 +11,33 @@ export class UserService {
   constructor(@InjectKnex() private readonly knex: Knex) {}
 
   async check(checkUserDto: CheckUserDto) {
+    let user;
     try {
-      const user = await this.knex
+      user = await this.knex
         .table('users')
-        .select('id', 'username')
+        .select('username', 'password')
         .where({
           username: checkUserDto.username,
-          password: checkUserDto.password,
         });
-
-      if (user.length === 0) {
-        throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
-      } else {
-        return user[0];
-      }
     } catch (err) {
-      throw new HttpException('message', 400, {
-        cause: new Error('Cannot connect to the DB'),
-      });
+      throw new HttpException(err, HttpStatus.BAD_GATEWAY);
+    }
+
+    if (user.length === 0) {
+      // User not found
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    } else if (user.length === 1) {
+      const checkResult = await bcrypt.compare(
+        checkUserDto.password,
+        user[0].password,
+      );
+
+      if (checkResult) {
+        return { username: user[0].username };
+      } else {
+        // Password not match
+        throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+      }
     }
   }
 

@@ -30,9 +30,9 @@ const LoginForm = () => {
 
   const useLocalJwtToken = async () => {
     try {
+      // storeJwtToken(''); // delete the token locally
       const value = await AsyncStorage.getItem('@storage_Key');
       if (value !== null) {
-        // check user by JWT token
         const response = await axios.get(`${API_URL}/profile`, {
           headers: {
             'Content-Type': 'application/json',
@@ -51,16 +51,18 @@ const LoginForm = () => {
   }, []);
 
   const handleLogin = async () => {
-    const response = await axios.post(`${API_URL}/auth/login`, {
-      username: username,
-      password: password,
-    });
+    try {
+      const response = await axios.post(`${API_URL}/auth/login`, {
+        username: username,
+        password: password,
+      });
 
-    if (response.data.access_token) {
-      storeJwtToken(JSON.stringify(response.data));
-      navigation.navigate(ScreenList.Main);
-    } else {
-      Alert.alert('Cannot login');
+      if (response.data.access_token) {
+        storeJwtToken(JSON.stringify(response.data));
+        navigation.navigate(ScreenList.Main);
+      }
+    } catch (error) {
+      Alert.alert('Wrong Username or Password');
     }
   };
 
@@ -85,6 +87,8 @@ const LoginForm = () => {
           autoCorrect={false}
           onChangeText={text => setUsername(text)}
           value={username}
+          onSubmitEditing={handleLogin}
+          autoFocus={true}
         />
         <TextInput
           style={styles.input}
@@ -93,6 +97,7 @@ const LoginForm = () => {
           onChangeText={text => setPassword(text)}
           value={password}
           secureTextEntry
+          onSubmitEditing={handleLogin}
         />
         <Button title="Login" onPress={handleLogin} />
       </View>
