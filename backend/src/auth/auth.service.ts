@@ -25,9 +25,7 @@ export class AuthService {
       username: user.username,
       password: user.password,
     });
-    // console.log({ payload });
 
-    // console.log(this.jwtService.sign(payload));
     return {
       access_token: this.jwtService.sign(payload),
     };
