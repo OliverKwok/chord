@@ -15,6 +15,7 @@ export class AuthService {
     const user = await this.userService.findOne(username);
 
     if (user && (await bcrypt.compare(password, user.password))) {
+      // 1st: user input, 2nd: db
       const { password, ...result } = user; // get the key value pair other than the password, and assign it to const result
       return result;
     }
