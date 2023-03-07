@@ -16,9 +16,9 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  // TODO this is not implemented yet
-  // @UseGuards(LocalAuthGuard)
+  @UseGuards(LocalAuthGuard) // use to check username and password
   @Post('auth/login')
+  // use to generate token with payload
   async login(@Request() req) {
     return this.authService.login(req.body);
   }
