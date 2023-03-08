@@ -1,12 +1,11 @@
 import {
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  TouchableOpacityComponent,
   View,
+  Dimensions,
 } from 'react-native';
-import React from 'react';
+import React, {createRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {ScreenList} from '../../type';
 
@@ -18,6 +17,8 @@ import {faUsers} from '@fortawesome/free-solid-svg-icons';
 import {faCalendar} from '@fortawesome/free-solid-svg-icons';
 import {faBook} from '@fortawesome/free-solid-svg-icons';
 import {faNoteSticky} from '@fortawesome/free-solid-svg-icons';
+
+const {width, height} = Dimensions.get('window');
 
 const headerIconList = [
   {
@@ -67,7 +68,51 @@ export default function () {
             ))}
           </View>
         </LinearGradient>
+      </View>
+      <View
+        style={{
+          height: height - (100 + getStatusBarHeight()) - 100 - 50 - 20 * 2,
+          borderWidth: 3,
+          borderColor: 'red',
+        }}>
         <Text>Content</Text>
+      </View>
+      <View
+        style={{
+          height: 50,
+          backgroundColor: '#00b28f',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          margin: 20,
+          borderRadius: 20,
+
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+
+          elevation: 5,
+        }}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+          }}>
+          <Text style={{color: 'white'}}>Revenue</Text>
+          <Text style={{color: 'white'}}>$20,000</Text>
+        </View>
+        <View style={{flex: 1, alignItems: 'center'}}>
+          <Text style={{color: 'white'}}>Cost</Text>
+          <Text style={{color: 'white'}}>$20,000</Text>
+        </View>
+        <View style={{flex: 1, alignItems: 'center'}}>
+          <Text style={{color: 'white'}}>Profit</Text>
+          <Text style={{color: 'white'}}>$20,000</Text>
+        </View>
       </View>
     </View>
   );
