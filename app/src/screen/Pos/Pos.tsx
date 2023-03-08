@@ -14,28 +14,30 @@ export default function () {
       <View
         style={{
           flex: 1,
-          backgroundColor: 'white',
+          // backgroundColor: 'white',
         }}>
-        <LinearGradient
-          colors={['#4c669f', '#2e4577']}
-          style={styles.headerContainer}>
-          <View style={styles.headerItemContainer}>
-            <FontAwesomeIcon icon={faUsers} size={32} color="#dbdbdb" />
-            <Text style={styles.headerText}>Student</Text>
-          </View>
-          <View style={styles.headerItemContainer}>
-            <FontAwesomeIcon icon={faCalendar} size={32} color="#dbdbdb" />
-            <Text style={styles.headerText}>Enroll</Text>
-          </View>
-          <View style={styles.headerItemContainer}>
-            <FontAwesomeIcon icon={faBook} size={32} color="#dbdbdb" />
-            <Text style={styles.headerText}>Course</Text>
-          </View>
-          <View style={styles.headerItemContainer}>
-            <FontAwesomeIcon icon={faNoteSticky} size={32} color="#dbdbdb" />
-            <Text style={styles.headerText}>Admin</Text>
-          </View>
-        </LinearGradient>
+        <View style={styles.headerShadow}>
+          <LinearGradient
+            colors={['#4c669f', '#2e4577']}
+            style={styles.headerContainer}>
+            <View style={styles.headerItemContainer}>
+              <FontAwesomeIcon icon={faUsers} size={32} color="#dbdbdb" />
+              <Text style={styles.headerText}>Student</Text>
+            </View>
+            <View style={styles.headerItemContainer}>
+              <FontAwesomeIcon icon={faCalendar} size={32} color="#dbdbdb" />
+              <Text style={styles.headerText}>Enroll</Text>
+            </View>
+            <View style={styles.headerItemContainer}>
+              <FontAwesomeIcon icon={faBook} size={32} color="#dbdbdb" />
+              <Text style={styles.headerText}>Course</Text>
+            </View>
+            <View style={styles.headerItemContainer}>
+              <FontAwesomeIcon icon={faNoteSticky} size={32} color="#dbdbdb" />
+              <Text style={styles.headerText}>Admin</Text>
+            </View>
+          </LinearGradient>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -43,10 +45,17 @@ export default function () {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     backgroundColor: '#4c669f',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+  },
+  headerShadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 15,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 6.68,
+    elevation: 11,
   },
   headerContainer: {
     height: 100,
