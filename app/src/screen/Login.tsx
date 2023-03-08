@@ -2,12 +2,11 @@ import React, {useState} from 'react';
 import {View, TextInput, Button, StyleSheet, Text, Alert} from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
+import {ScreenList} from '../type';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBook} from '@fortawesome/free-solid-svg-icons';
-
-import {ScreenList} from '../type';
 
 import Config from 'react-native-config';
 
