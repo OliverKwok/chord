@@ -282,17 +282,17 @@ export default () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0d3b66',
     flex: 1,
+    backgroundColor: '#0d3b66',
   },
   topContainer: {
+    flexGrow: 1,
     backgroundColor: '#0d3b66',
     paddingHorizontal: 4,
-    flexGrow: 1,
   },
   topButton: {
-    marginHorizontal: 8,
     flex: 1,
+    marginHorizontal: 8,
     justifyContent: 'center',
   },
   topButtonText: {
@@ -301,8 +301,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   buttomContainer: {
-    flexDirection: 'row',
     flex: 20,
+    flexDirection: 'row',
   },
   leftContainer: {
     width: windowWidth * 0.4,

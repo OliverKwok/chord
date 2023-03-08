@@ -10,7 +10,11 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Login from './src/screen/Login';
 import Print from './src/screen/Print';
-import Pos from './src/screen/Pos';
+import Pos from './src/screen/Pos/Pos';
+import Student from './src/screen/Pos/Student';
+import Enroll from './src/screen/Pos/Enroll';
+import Course from './src/screen/Pos/Course';
+import Admin from './src/screen/Pos/Admin';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -84,6 +88,10 @@ export default function App() {
         }}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Main" component={Main} />
+        <Stack.Screen name="Student" component={Student} />
+        <Stack.Screen name="Enroll" component={Enroll} />
+        <Stack.Screen name="Course" component={Course} />
+        <Stack.Screen name="Admin" component={Admin} />
       </Stack.Navigator>
     </NavigationContainer>
   );

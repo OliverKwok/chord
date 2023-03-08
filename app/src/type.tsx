@@ -5,6 +5,10 @@ export enum ScreenList {
   Main = 'Main',
   Print = 'Print',
   Pos = 'Pos',
+  Student = 'Student',
+  Enroll = 'Enroll',
+  Course = 'Course',
+  Admin = 'Admin',
 }
 
 export type RootStackParamList = {
@@ -12,6 +16,10 @@ export type RootStackParamList = {
   [ScreenList.Main]: undefined;
   [ScreenList.Print]: undefined;
   [ScreenList.Pos]: undefined;
+  [ScreenList.Student]: undefined;
+  [ScreenList.Enroll]: undefined;
+  [ScreenList.Course]: undefined;
+  [ScreenList.Admin]: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
