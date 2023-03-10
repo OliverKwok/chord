@@ -71,8 +71,8 @@ export default () => {
   // to protect folder
   const longFolderName = 'VajRn5YpJk3Vxf7b';
 
-  // const API_URL = Config.API_URL;
-  const API_URL = `http://192.168.104.114:3001`;
+  const API_URL = Config.API_URL;
+  // const API_URL = `http://192.168.104.114:3001`;
 
   const checkExternalIp = async () => {
     const ipAddress = await axios.get('https://api.ipify.org?format=json');
