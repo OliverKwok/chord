@@ -22,7 +22,7 @@ import {faUser} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import RNPrint from 'react-native-print';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {Dialog, ListItem} from '@rneui/themed';
+import {Dialog} from '@rneui/themed';
 import RadioButtonWithName from '../component/RadioButtonWithName';
 
 interface PdfList {
@@ -320,20 +320,6 @@ export default () => {
               />
             </View>
           </Dialog>
-          {/* <View style={styles.footerContainer}>
-            <FlatList
-              horizontal={true}
-              data={studentList}
-              renderItem={itemData => (
-                <TouchableOpacity>
-                  <Text style={styles.footerButtonText}>
-                    {itemData.item.name}
-                  </Text>
-                </TouchableOpacity>
-              )}
-              keyExtractor={item => item.id}
-            />
-          </View> */}
           {/* silent print function, not use it now */}
           {/* <View style={styles.footerContainer}>
             <Button onPress={selectPrinter} title="Select Printer" />
