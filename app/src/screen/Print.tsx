@@ -16,6 +16,9 @@ import {
 import {version} from '../../package.json';
 import Config from 'react-native-config';
 
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faUser} from '@fortawesome/free-solid-svg-icons';
+
 import axios from 'axios';
 import RNPrint from 'react-native-print';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -195,22 +198,33 @@ export default () => {
       />
       {checkIpPass && checkVersionPass ? (
         <>
-          <ScrollView
-            horizontal={true}
-            contentContainerStyle={styles.topContainer}>
-            {folderList.map(item => {
-              return (
-                <TouchableOpacity
-                  key={item.name}
-                  style={styles.topButton}
-                  onPress={() => folderPressHandler(item.name)}>
-                  <View>
-                    <Text style={styles.topButtonText}>{item.name}</Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingHorizontal: 8,
+              paddingVertical: 12,
+            }}>
+            <ScrollView
+              horizontal={true}
+              contentContainerStyle={styles.topContainer}
+              showsHorizontalScrollIndicator={false}>
+              {folderList.map(item => {
+                return (
+                  <TouchableOpacity
+                    key={item.name}
+                    style={styles.topButton}
+                    onPress={() => folderPressHandler(item.name)}>
+                    <View>
+                      <Text style={styles.topButtonText}>{item.name}</Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+            <View style={{marginLeft: 8}}>
+              <FontAwesomeIcon icon={faUser} size={30} color={'#fffcf2'} />
+            </View>
+          </View>
           <View style={styles.buttomContainer}>
             <View style={styles.leftContainer}>
               {selectFolder === '' ? (
@@ -309,7 +323,6 @@ const styles = StyleSheet.create({
   topContainer: {
     flexGrow: 1,
     backgroundColor: '#0d3b66',
-    paddingHorizontal: 4,
   },
   topButton: {
     flex: 1,

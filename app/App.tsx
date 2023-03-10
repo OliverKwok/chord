@@ -6,7 +6,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faPrint} from '@fortawesome/free-solid-svg-icons';
 import {faAddressCard} from '@fortawesome/free-solid-svg-icons';
-import {faUser} from '@fortawesome/free-solid-svg-icons';
+
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Login from './src/screen/Login';
