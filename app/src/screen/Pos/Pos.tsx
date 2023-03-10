@@ -61,7 +61,8 @@ export default function () {
               <TouchableOpacity
                 style={styles.headerItemContainer}
                 key={item.id}
-                onPress={() => navigation.navigate(item.screen)}>
+                // onPress={() => navigation.navigate(item.screen)}
+              >
                 <FontAwesomeIcon icon={item.logo} size={32} color="#dbdbdb" />
                 <Text style={styles.headerText}>{item.text}</Text>
               </TouchableOpacity>
@@ -72,10 +73,12 @@ export default function () {
       <View
         style={{
           height: height - (100 + getStatusBarHeight()) - 100 - 50 - 20 * 2,
-          borderWidth: 3,
-          borderColor: 'red',
+          // borderWidth: 3,
+          // borderColor: 'red',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
-        <Text>Content</Text>
+        <Text>Coming soon</Text>
       </View>
       <View
         style={{
@@ -103,7 +106,7 @@ export default function () {
             alignItems: 'center',
           }}>
           <Text style={{color: 'white'}}>Revenue</Text>
-          <Text style={{color: 'white'}}>$20,000</Text>
+          <Text style={{color: 'white'}}>$30,000</Text>
         </View>
         <View style={{flex: 1, alignItems: 'center'}}>
           <Text style={{color: 'white'}}>Cost</Text>
@@ -111,7 +114,7 @@ export default function () {
         </View>
         <View style={{flex: 1, alignItems: 'center'}}>
           <Text style={{color: 'white'}}>Profit</Text>
-          <Text style={{color: 'white'}}>$20,000</Text>
+          <Text style={{color: 'white'}}>$10,000</Text>
         </View>
       </View>
     </View>

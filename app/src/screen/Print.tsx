@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
   Alert,
   RefreshControl,
+  Button,
 } from 'react-native';
 import {version} from '../../package.json';
 import Config from 'react-native-config';
@@ -30,9 +31,14 @@ interface PdfList {
   children: PdfList[];
 }
 
-interface StudentList {
-  id: string;
+interface Student {
+  id: number;
   name: string;
+}
+
+interface PrintRecord {
+  student_id: number;
+  print_file_name: string;
 }
 
 const windowWidth = Dimensions.get('window').width;
@@ -56,8 +62,11 @@ export default () => {
   };
 
   // student list
-  const [studentList, setStudentList] = React.useState<StudentList[]>([]);
-  const [selectedStudent, setSelectedStudent] = React.useState<string>('');
+  const [studentList, setStudentList] = React.useState<Student[]>([]);
+  const [selectedStudent, setSelectedStudent] = React.useState<number>(0);
+
+  // print record list
+  const [printRecordList, setPrintRecordList] = React.useState<String[]>([]);
 
   // to protect folder
   const longFolderName = 'VajRn5YpJk3Vxf7b';
@@ -89,6 +98,21 @@ export default () => {
     setStudentList(studentResponse.data);
   };
 
+  const fetchPrintRecordJson = async (id: number) => {
+    const printRecordResponse = await axios.get(
+      `${API_URL}/print-record/${id}`,
+    );
+    if (printRecordResponse.data.length > 0) {
+      setPrintRecordList(
+        printRecordResponse.data.map(
+          (item: PrintRecord) => item.print_file_name,
+        ),
+      );
+    } else {
+      setPrintRecordList([]);
+    }
+  };
+
   const handleRefresh = async () => {
     setRefreshing(true);
     await fetchPdfJson();
@@ -101,6 +125,10 @@ export default () => {
     fetchPdfJson();
     fetchStudentJson();
   }, []);
+
+  React.useEffect(() => {
+    fetchPrintRecordJson(selectedStudent);
+  }, [selectedStudent]);
 
   function folderPressHandler(folderName: string) {
     setSelectSubFolder('');
@@ -138,7 +166,13 @@ export default () => {
         key={fileName}
         style={styles.downButton}
         onPress={() => filePressHandler(fileName)}>
-        <Text style={styles.downButtonText}>{fileName}</Text>
+        {printRecordList.indexOf(fileName) !== -1 ? (
+          <Text style={[styles.downButtonText, {color: 'red'}]}>
+            {fileName}
+          </Text>
+        ) : (
+          <Text style={styles.downButtonText}>{fileName}</Text>
+        )}
       </TouchableOpacity>
     );
   }
@@ -166,18 +200,47 @@ export default () => {
     //   return;
     // }
 
-    await axios.post(`${API_URL}/stats`, {
-      selectFolder: selectFolder,
-      selectSubFolder: selectSubFolder,
-      selectFile: fileName,
-    });
+    if (selectedStudent > 0) {
+      let studentName = '';
+      studentList.forEach((item: Student) => {
+        if (item.id === selectedStudent) studentName = item.name;
+      });
+      // console.log(studentName);
+      Alert.alert('Reminder', `Student selected is ${studentName}`, [
+        {
+          text: 'Cancel',
+          onPress: () => {
+            setShowSpinner(false);
+            return;
+          },
+        },
+        {
+          text: 'OK',
+          onPress: async () => {
+            await axios.post(`${API_URL}/stats`, {
+              selectFolder: selectFolder,
+              selectSubFolder: selectSubFolder,
+              selectFile: fileName,
+            });
 
-    await RNPrint.print({
-      // printerURL: selectedPrinter.url,
-      filePath: path,
-    });
+            await axios.post(`${API_URL}/print-record`, {
+              student_id: selectedStudent,
+              print_file_name: fileName,
+            });
 
-    setShowSpinner(false);
+            await RNPrint.print({
+              // printerURL: selectedPrinter.url,
+              filePath: path,
+            });
+
+            fetchPrintRecordJson(selectedStudent);
+
+            setShowSpinner(false);
+          },
+        },
+      ]);
+    }
+    // setShowSpinner(false);
   };
 
   // for promise testing
@@ -226,7 +289,7 @@ export default () => {
             </ScrollView>
             <View style={{marginLeft: 8}}>
               <TouchableOpacity onPress={toggleDialog}>
-                {selectedStudent === '' ? (
+                {selectedStudent === 0 ? (
                   <FontAwesomeIcon icon={faUser} size={30} color={'#f6edcf'} />
                 ) : (
                   <FontAwesomeIcon icon={faUser} size={30} color={'#4c956c'} />
@@ -296,8 +359,9 @@ export default () => {
                     setSelectedStudent={setSelectedStudent}
                   />
                 )}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item.id.toString()}
               />
+              <Button title="Select" onPress={toggleDialog} />
             </View>
           </Dialog>
           {/* silent print function, not use it now */}
@@ -375,12 +439,4 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.6,
     backgroundColor: 'white',
   },
-  // footerContainer: {
-  //   backgroundColor: 'white',
-  // },
-  // footerButtonText: {
-  //   fontSize: 20,
-  //   marginHorizontal: 8,
-  //   marginVertical: 12,
-  // },
 });

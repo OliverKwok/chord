@@ -10,14 +10,14 @@ const RadioButton = ({
   selectedStudent,
   setSelectedStudent,
 }: {
-  id: string;
+  id: number;
   name: string;
-  selectedStudent: string;
+  selectedStudent: number;
   setSelectedStudent: any;
 }) => {
   const handlePress = () => {
     if (id === selectedStudent) {
-      setSelectedStudent('');
+      setSelectedStudent(0);
     } else {
       setSelectedStudent(id);
     }
