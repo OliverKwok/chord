@@ -22,6 +22,8 @@ import {faUser} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import RNPrint from 'react-native-print';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {Dialog, ListItem} from '@rneui/themed';
+import RadioButtonWithName from '../component/RadioButtonWithName';
 
 interface PdfList {
   name: string;
@@ -47,8 +49,15 @@ export default () => {
   const [showSpinner, setShowSpinner] = React.useState(false);
   // const [selectedPrinter, setSelectedPrinter] = React.useState<any>(null);
 
+  // select student dialog
+  const [showDialog, setShowDialog] = React.useState(false);
+  const toggleDialog = () => {
+    setShowDialog(!showDialog);
+  };
+
   const [studentList, setStudentList] = React.useState<StudentList[]>([]);
 
+  // to protect folder
   const longFolderName = 'VajRn5YpJk3Vxf7b';
 
   // const API_URL = Config.API_URL;
@@ -82,6 +91,18 @@ export default () => {
       {id: '5', name: 'StudentE'},
       {id: '6', name: 'StudentF'},
       {id: '7', name: 'StudentG'},
+      {id: '8', name: 'StudentA'},
+      {id: '9', name: 'StudentB'},
+      {id: '10', name: 'StudentC'},
+      {id: '11', name: 'StudentD'},
+      {id: '12', name: 'StudentE'},
+      {id: '13', name: 'StudentF'},
+      {id: '14', name: 'StudentG'},
+      {id: '15', name: 'StudentC'},
+      {id: '16', name: 'StudentD'},
+      {id: '17', name: 'StudentE'},
+      {id: '18', name: 'StudentF'},
+      {id: '19', name: 'StudentG'},
     ];
     setStudentList(studentResponse);
   };
@@ -222,7 +243,9 @@ export default () => {
               })}
             </ScrollView>
             <View style={{marginLeft: 8}}>
-              <FontAwesomeIcon icon={faUser} size={30} color={'#fffcf2'} />
+              <TouchableOpacity onPress={toggleDialog}>
+                <FontAwesomeIcon icon={faUser} size={30} color={'#f6edcf'} />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.buttomContainer}>
@@ -274,6 +297,18 @@ export default () => {
               )}
             </View>
           </View>
+          <Dialog isVisible={showDialog} onBackdropPress={toggleDialog}>
+            <View style={{height: 500}}>
+              <Dialog.Title title="Select student" />
+              <FlatList
+                data={studentList}
+                renderItem={({item}) => (
+                  <RadioButtonWithName id={item.id} name={item.name} />
+                )}
+                keyExtractor={item => item.id}
+              />
+            </View>
+          </Dialog>
           {/* <View style={styles.footerContainer}>
             <FlatList
               horizontal={true}
