@@ -4,11 +4,19 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCircleArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {faCheck} from '@fortawesome/free-solid-svg-icons';
 
-const RadioButton = ({id, name}: {id: string; name: string}) => {
-  const [isChecked, setIsChecked] = React.useState(false);
-
+const RadioButton = ({
+  id,
+  name,
+  checkStudentHandler,
+  selectedStudent,
+}: {
+  id: string;
+  name: string;
+  checkStudentHandler: any;
+  selectedStudent: string;
+}) => {
   const handlePress = () => {
-    setIsChecked(!isChecked);
+    checkStudentHandler(id);
   };
 
   return (
@@ -18,7 +26,7 @@ const RadioButton = ({id, name}: {id: string; name: string}) => {
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        {!isChecked ? (
+        {selectedStudent !== id ? (
           <FontAwesomeIcon
             icon={faCircleArrowRight}
             size={20}

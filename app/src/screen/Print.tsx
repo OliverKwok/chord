@@ -55,7 +55,13 @@ export default () => {
     setShowDialog(!showDialog);
   };
 
+  // student list
   const [studentList, setStudentList] = React.useState<StudentList[]>([]);
+  const [selectedStudent, setSelectedStudent] = React.useState<string>('');
+
+  const checkStudentHandler = (id: string) => {
+    setSelectedStudent(id);
+  };
 
   // to protect folder
   const longFolderName = 'VajRn5YpJk3Vxf7b';
@@ -303,7 +309,12 @@ export default () => {
               <FlatList
                 data={studentList}
                 renderItem={({item}) => (
-                  <RadioButtonWithName id={item.id} name={item.name} />
+                  <RadioButtonWithName
+                    id={item.id}
+                    name={item.name}
+                    checkStudentHandler={checkStudentHandler}
+                    selectedStudent={selectedStudent}
+                  />
                 )}
                 keyExtractor={item => item.id}
               />
