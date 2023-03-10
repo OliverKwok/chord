@@ -7,16 +7,20 @@ import {faCheck} from '@fortawesome/free-solid-svg-icons';
 const RadioButton = ({
   id,
   name,
-  checkStudentHandler,
   selectedStudent,
+  setSelectedStudent,
 }: {
   id: string;
   name: string;
-  checkStudentHandler: any;
   selectedStudent: string;
+  setSelectedStudent: any;
 }) => {
   const handlePress = () => {
-    checkStudentHandler(id);
+    if (id === selectedStudent) {
+      setSelectedStudent('');
+    } else {
+      setSelectedStudent(id);
+    }
   };
 
   return (

@@ -39,7 +39,7 @@ export async function up(knex: Knex): Promise<void> {
 
   await knex.schema.createTable('print_record', (table) => {
     table.increments('id').primary();
-    table.string('student_id').references('student.id');
+    table.integer('student_id').references('student.id');
     table.string('print_file_name');
   });
 }

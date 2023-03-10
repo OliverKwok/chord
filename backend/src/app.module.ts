@@ -15,6 +15,8 @@ import { IpModule } from './ip/ip.module';
 import { StatsModule } from './stats/stats.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { PrintRecordModule } from './print-record/print-record.module';
+import { StudentModule } from './student/student.module';
 
 Config();
 
@@ -34,6 +36,8 @@ Config();
     StatsModule,
     UserModule,
     AuthModule,
+    PrintRecordModule,
+    StudentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

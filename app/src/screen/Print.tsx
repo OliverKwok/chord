@@ -59,10 +59,6 @@ export default () => {
   const [studentList, setStudentList] = React.useState<StudentList[]>([]);
   const [selectedStudent, setSelectedStudent] = React.useState<string>('');
 
-  const checkStudentHandler = (id: string) => {
-    setSelectedStudent(id);
-  };
-
   // to protect folder
   const longFolderName = 'VajRn5YpJk3Vxf7b';
 
@@ -89,28 +85,8 @@ export default () => {
   };
 
   const fetchStudentJson = async () => {
-    const studentResponse = [
-      {id: '1', name: 'StudentA'},
-      {id: '2', name: 'StudentB'},
-      {id: '3', name: 'StudentC'},
-      {id: '4', name: 'StudentD'},
-      {id: '5', name: 'StudentE'},
-      {id: '6', name: 'StudentF'},
-      {id: '7', name: 'StudentG'},
-      {id: '8', name: 'StudentA'},
-      {id: '9', name: 'StudentB'},
-      {id: '10', name: 'StudentC'},
-      {id: '11', name: 'StudentD'},
-      {id: '12', name: 'StudentE'},
-      {id: '13', name: 'StudentF'},
-      {id: '14', name: 'StudentG'},
-      {id: '15', name: 'StudentC'},
-      {id: '16', name: 'StudentD'},
-      {id: '17', name: 'StudentE'},
-      {id: '18', name: 'StudentF'},
-      {id: '19', name: 'StudentG'},
-    ];
-    setStudentList(studentResponse);
+    const studentResponse = await axios.get(`${API_URL}/student`);
+    setStudentList(studentResponse.data);
   };
 
   const handleRefresh = async () => {
@@ -250,7 +226,11 @@ export default () => {
             </ScrollView>
             <View style={{marginLeft: 8}}>
               <TouchableOpacity onPress={toggleDialog}>
-                <FontAwesomeIcon icon={faUser} size={30} color={'#f6edcf'} />
+                {selectedStudent === '' ? (
+                  <FontAwesomeIcon icon={faUser} size={30} color={'#f6edcf'} />
+                ) : (
+                  <FontAwesomeIcon icon={faUser} size={30} color={'#4c956c'} />
+                )}
               </TouchableOpacity>
             </View>
           </View>
@@ -312,8 +292,8 @@ export default () => {
                   <RadioButtonWithName
                     id={item.id}
                     name={item.name}
-                    checkStudentHandler={checkStudentHandler}
                     selectedStudent={selectedStudent}
+                    setSelectedStudent={setSelectedStudent}
                   />
                 )}
                 keyExtractor={item => item.id}
