@@ -72,7 +72,7 @@ export default () => {
   const longFolderName = 'VajRn5YpJk3Vxf7b';
 
   // const API_URL = Config.API_URL;
-  const API_URL = `http://localhost:3001`;
+  const API_URL = `http://192.168.104.114:3001`;
 
   const checkExternalIp = async () => {
     const ipAddress = await axios.get('https://api.ipify.org?format=json');
@@ -240,7 +240,20 @@ export default () => {
         },
       ]);
     }
-    // setShowSpinner(false);
+
+    // if no student is selected
+    await axios.post(`${API_URL}/stats`, {
+      selectFolder: selectFolder,
+      selectSubFolder: selectSubFolder,
+      selectFile: fileName,
+    });
+
+    await RNPrint.print({
+      // printerURL: selectedPrinter.url,
+      filePath: path,
+    });
+
+    setShowSpinner(false);
   };
 
   // for promise testing
