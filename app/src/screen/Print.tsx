@@ -11,6 +11,7 @@ import {
   FlatList,
   ActivityIndicator,
   Alert,
+  RefreshControl,
 } from 'react-native';
 import {version} from '../../package.json';
 import Config from 'react-native-config';
@@ -32,6 +33,8 @@ interface StudentList {
 const windowWidth = Dimensions.get('window').width;
 
 export default () => {
+  const [refreshing, setRefreshing] = React.useState(false);
+
   const [folderList, setFolderList] = React.useState<PdfList[]>([]);
   const [selectFolder, setSelectFolder] = React.useState('');
   const [selectSubFolder, setSelectSubFolder] = React.useState('');
@@ -78,6 +81,12 @@ export default () => {
       {id: '7', name: 'StudentG'},
     ];
     setStudentList(studentResponse);
+  };
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchPdfJson();
+    setRefreshing(false);
   };
 
   React.useEffect(() => {
@@ -216,6 +225,12 @@ export default () => {
                   }
                   renderItem={itemData => subFolderRenderer(itemData.item.name)}
                   keyExtractor={item => item.name}
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={refreshing}
+                      onRefresh={handleRefresh}
+                    />
+                  }
                 />
               )}
             </View>
@@ -235,6 +250,12 @@ export default () => {
                   }
                   renderItem={itemData => fileRenderer(itemData.item.name)}
                   keyExtractor={item => item.name}
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={refreshing}
+                      onRefresh={handleRefresh}
+                    />
+                  }
                 />
               )}
             </View>
@@ -329,12 +350,12 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.6,
     backgroundColor: 'white',
   },
-  footerContainer: {
-    backgroundColor: 'white',
-  },
-  footerButtonText: {
-    fontSize: 20,
-    marginHorizontal: 8,
-    marginVertical: 12,
-  },
+  // footerContainer: {
+  //   backgroundColor: 'white',
+  // },
+  // footerButtonText: {
+  //   fontSize: 20,
+  //   marginHorizontal: 8,
+  //   marginVertical: 12,
+  // },
 });

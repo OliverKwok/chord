@@ -5,6 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faPrint} from '@fortawesome/free-solid-svg-icons';
+import {faAddressCard} from '@fortawesome/free-solid-svg-icons';
 import {faUser} from '@fortawesome/free-solid-svg-icons';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -59,7 +60,7 @@ function Main() {
             <View style={styles.tabContainer}>
               <View style={{marginBottom: 4}}>
                 <FontAwesomeIcon
-                  icon={faUser}
+                  icon={faAddressCard}
                   size={30}
                   color={focused ? '#0d3b66' : '#666666'}
                 />
