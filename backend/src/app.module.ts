@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
+// import { ConfigModule } from '@nestjs/config'; // from doc
 import { KnexModule } from 'nestjs-knex';
 import * as config from '../knexfile';
 import { config as Config } from 'dotenv';
@@ -24,9 +25,21 @@ Config();
   imports: [
     KnexModule.forRootAsync({
       useFactory: () => ({
-        config: config[process.env.NODE_ENV ?? 'development'],
+        config: {
+          client: 'postgresql',
+          connection: {
+            host: 'localhost',
+            user: 'postgres',
+            password: 'postgres',
+            database: 'chord',
+          },
+        },
+        // config: config[process.env.NODE_ENV ?? 'development'],
       }),
     }),
+    // ConfigModule.forRoot({
+    //   isGlobal: true,
+    // }),
     PdfModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname.replace('/dist/src', ''), 'public'),

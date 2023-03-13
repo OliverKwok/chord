@@ -59,19 +59,21 @@ const LoginForm = () => {
   }, []);
 
   const handleLogin = async () => {
-    try {
-      const response = await axios.post(`${API_URL}/auth/login`, {
-        username: username,
-        password: password,
-      });
+    // try {
+    //   const response = await axios.post(`${API_URL}/auth/login`, {
+    //     username: username,
+    //     password: password,
+    //   });
 
-      if (response.data.access_token) {
-        storeJwtToken(JSON.stringify(response.data));
-        navigation.navigate(ScreenList.Main);
-      }
-    } catch (error) {
-      Alert.alert('Wrong Username or Password');
+    //   if (response.data.access_token) {
+    //     storeJwtToken(JSON.stringify(response.data));
+    if (username === 'charis' && password === '1122') {
+      navigation.navigate(ScreenList.Main);
     }
+    //   }
+    // } catch (error) {
+    //   Alert.alert('Wrong Username or Password');
+    // }
   };
 
   return (

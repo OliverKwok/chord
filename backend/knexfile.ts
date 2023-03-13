@@ -6,7 +6,7 @@ Config();
 // import { ConfigModule, ConfigService } from '@nestjs/config';
 // const db_config = new ConfigService();
 // dotenv.config();
-// console.log(process.env);
+console.log(process.env.DB_USER);
 
 const config: { [key: string]: Knex.Config } = {
   development: {
@@ -16,10 +16,6 @@ const config: { [key: string]: Knex.Config } = {
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       host: process.env.DB_HOST,
-      // database: db_config.get('DB_NAME'),
-      // user: db_config.get('DB_USER'),
-      // password: db_config.get('DB_PASSWORD'),
-      // host: db_config.get('DB_HOST'),
     },
     pool: {
       min: 2,
@@ -43,9 +39,10 @@ const config: { [key: string]: Knex.Config } = {
   staging: {
     client: 'postgresql',
     connection: {
-      database: 'my_db',
-      user: 'username',
-      password: 'password',
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      host: process.env.DB_HOST,
     },
     pool: {
       min: 2,
@@ -59,9 +56,10 @@ const config: { [key: string]: Knex.Config } = {
   production: {
     client: 'postgresql',
     connection: {
-      database: 'my_db',
-      user: 'username',
-      password: 'password',
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      host: process.env.DB_HOST,
     },
     pool: {
       min: 2,

@@ -15,9 +15,11 @@ export class StudentService {
   async findAll() {
     try {
       const studentList = await this.knex.table('student').select('id', 'name');
+      // console.log(studentList);
       return studentList;
     } catch (err) {
-      throw new HttpException(err, HttpStatus.BAD_GATEWAY);
+      console.log(err);
+      // throw new HttpException(err, HttpStatus.BAD_GATEWAY);
     }
   }
   findOne(id: number) {

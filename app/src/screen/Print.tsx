@@ -71,8 +71,8 @@ export default () => {
   // to protect folder
   const longFolderName = 'VajRn5YpJk3Vxf7b';
 
-  const API_URL = Config.API_URL;
-  // const API_URL = `http://192.168.104.114:3001`;
+  // const API_URL = Config.API_URL;
+  const API_URL = `http://192.168.104.114:3001`;
 
   const checkExternalIp = async () => {
     const ipAddress = await axios.get('https://api.ipify.org?format=json');
@@ -116,6 +116,7 @@ export default () => {
   const handleRefresh = async () => {
     setRefreshing(true);
     await fetchPdfJson();
+    await fetchPrintRecordJson(selectedStudent);
     setRefreshing(false);
   };
 
@@ -205,7 +206,7 @@ export default () => {
       studentList.forEach((item: Student) => {
         if (item.id === selectedStudent) studentName = item.name;
       });
-      // console.log(studentName);
+
       Alert.alert('Reminder', `Student selected is ${studentName}`, [
         {
           text: 'Cancel',
@@ -239,21 +240,21 @@ export default () => {
           },
         },
       ]);
+    } else {
+      // if no student is selected
+      await axios.post(`${API_URL}/stats`, {
+        selectFolder: selectFolder,
+        selectSubFolder: selectSubFolder,
+        selectFile: fileName,
+      });
+
+      await RNPrint.print({
+        // printerURL: selectedPrinter.url,
+        filePath: path,
+      });
+
+      setShowSpinner(false);
     }
-
-    // if no student is selected
-    await axios.post(`${API_URL}/stats`, {
-      selectFolder: selectFolder,
-      selectSubFolder: selectSubFolder,
-      selectFile: fileName,
-    });
-
-    await RNPrint.print({
-      // printerURL: selectedPrinter.url,
-      filePath: path,
-    });
-
-    setShowSpinner(false);
   };
 
   // for promise testing
