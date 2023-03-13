@@ -38,7 +38,7 @@ const LoginForm = () => {
 
   const useLocalJwtToken = async () => {
     try {
-      storeJwtToken(''); // delete the token locally
+      // storeJwtToken(''); // delete the token locally
       const value = await AsyncStorage.getItem('@storage_Key');
       if (value !== null) {
         const response = await axios.get(`${API_URL}/profile`, {
@@ -59,21 +59,21 @@ const LoginForm = () => {
   }, []);
 
   const handleLogin = async () => {
-    // try {
-    //   const response = await axios.post(`${API_URL}/auth/login`, {
-    //     username: username,
-    //     password: password,
-    //   });
+    try {
+      const response = await axios.post(`${API_URL}/auth/login`, {
+        username: username,
+        password: password,
+      });
 
-    //   if (response.data.access_token) {
-    //     storeJwtToken(JSON.stringify(response.data));
-    if (username === 'charis' && password === '1122') {
-      navigation.navigate(ScreenList.Main);
+      if (response.data.access_token) {
+        storeJwtToken(JSON.stringify(response.data));
+        // if (username === 'charis' && password === '1122') {
+        navigation.navigate(ScreenList.Main);
+        // }
+      }
+    } catch (error) {
+      Alert.alert('Wrong Username or Password');
     }
-    //   }
-    // } catch (error) {
-    //   Alert.alert('Wrong Username or Password');
-    // }
   };
 
   return (

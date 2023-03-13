@@ -15,7 +15,7 @@ export class StudentService {
   async findAll() {
     try {
       const studentList = await this.knex.table('student').select('id', 'name');
-      console.log(studentList);
+      // console.log(studentList);
       return studentList;
     } catch (err) {
       console.log(err);

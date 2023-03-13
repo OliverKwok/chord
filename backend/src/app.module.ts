@@ -29,8 +29,8 @@ Config();
           client: 'postgresql',
           connection: {
             host: 'localhost',
-            user: 'chord',
-            password: 'chord',
+            user: 'postgres',
+            password: 'postgres',
             database: 'chord',
           },
         },
