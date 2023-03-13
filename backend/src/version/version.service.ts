@@ -1,27 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateVersionDto } from './dto/create-version.dto';
-import { UpdateVersionDto } from './dto/update-version.dto';
+import { CheckVersionDto } from './dto/check-version.dto';
 
 @Injectable()
 export class VersionService {
-  create(createVersionDto: CreateVersionDto) {
-    if (createVersionDto.version === '1.1.8') return true;
+  check(checkVersionDto: CheckVersionDto) {
+    if (checkVersionDto.version === '1.1.9') return true;
     return false;
-  }
-
-  findAll() {
-    return true;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} version`;
-  }
-
-  update(id: number, updateVersionDto: UpdateVersionDto) {
-    return `This action updates a #${id} version`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} version`;
   }
 }
