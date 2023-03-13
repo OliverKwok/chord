@@ -19,7 +19,6 @@ import { PrintRecordModule } from './print-record/print-record.module';
 import { StudentModule } from './student/student.module';
 
 Config();
-console.log(process.env.DB_NAME);
 
 @Module({
   imports: [

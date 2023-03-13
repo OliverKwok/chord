@@ -12,3 +12,8 @@ export interface PrintRecord {
   student_id: number;
   print_file_name: string;
 }
+
+export interface StudentListState {
+  studentList: Student[];
+  updateStudentList: (newStudentList: Student[]) => void;
+}

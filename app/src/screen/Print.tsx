@@ -27,6 +27,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import {Dialog} from '@rneui/themed';
 import RadioButtonWithName from '../component/RadioButtonWithName';
 
+import {useStudentListStore} from '../store/studentList';
+
 const windowWidth = Dimensions.get('window').width;
 
 export default () => {
@@ -56,7 +58,10 @@ export default () => {
   // to protect folder
   const longFolderName = 'VajRn5YpJk3Vxf7b';
 
-  const API_URL = Config.API_URL;
+  // const API_URL = Config.API_URL;
+  const API_URL = `http://192.168.104.114:3001`;
+
+  const {updateStudentList} = useStudentListStore();
 
   const checkExternalIp = async () => {
     const ipAddress = await axios.get('https://api.ipify.org?format=json');
@@ -77,22 +82,12 @@ export default () => {
     setFolderList(pdfResponse.data);
   };
 
-  // zustand for student list
-
-  // interface StudentListState {
-  //   StudentList: Student[];
-  //   newStudentList: (by: Student[]) => void;
-  // }
-
-  // const useStudentListStore = create<StudentListState>(set => ({
-  //   StudentList: [],
-  //   newStudentList: () => set(state => ({StudentList: state.StudentList})),
-  // }));
-
   const fetchStudentJson = async () => {
     const studentResponse = await axios.get(`${API_URL}/student`);
-    // const bears = useStudentListStore(state => state.newStudentList);
     setStudentList(studentResponse.data);
+
+    // zustand
+    updateStudentList(studentResponse.data);
   };
 
   const fetchPrintRecordJson = async (id: number) => {

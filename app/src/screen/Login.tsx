@@ -20,8 +20,8 @@ import {faBook} from '@fortawesome/free-solid-svg-icons';
 import Config from 'react-native-config';
 
 const LoginForm = () => {
-  const API_URL = Config.API_URL;
-  // const API_URL = `http://192.168.104.114:3001`;
+  // const API_URL = Config.API_URL;
+  const API_URL = `http://192.168.104.114:3001`;
 
   const navigation = useNavigation();
 
@@ -49,8 +49,8 @@ const LoginForm = () => {
         });
         if (response.data.username) navigation.navigate(ScreenList.Main);
       }
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.log('err: use jwt token', err);
     }
   };
 
@@ -71,7 +71,8 @@ const LoginForm = () => {
         navigation.navigate(ScreenList.Main);
         // }
       }
-    } catch (error) {
+    } catch (err) {
+      console.log('err: handle login', err);
       Alert.alert('Wrong Username or Password');
     }
   };
