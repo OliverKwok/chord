@@ -5,7 +5,6 @@ import { AppService } from './app.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
-// import { ConfigModule } from '@nestjs/config'; // from doc
 import { KnexModule } from 'nestjs-knex';
 import * as config from '../knexfile';
 import { config as Config } from 'dotenv';
@@ -20,6 +19,7 @@ import { PrintRecordModule } from './print-record/print-record.module';
 import { StudentModule } from './student/student.module';
 
 Config();
+console.log(process.env.DB_NAME);
 
 @Module({
   imports: [
@@ -28,18 +28,15 @@ Config();
         config: {
           client: 'postgresql',
           connection: {
-            host: 'localhost',
-            user: 'chord',
-            password: 'chord',
-            database: 'chord',
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME,
           },
         },
         // config: config[process.env.NODE_ENV ?? 'development'],
       }),
     }),
-    // ConfigModule.forRoot({
-    //   isGlobal: true,
-    // }),
     PdfModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname.replace('/dist/src', ''), 'public'),
