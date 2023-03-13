@@ -18,8 +18,8 @@ export class StudentService {
       // console.log(studentList);
       return studentList;
     } catch (err) {
-      console.log(err);
-      // throw new HttpException(err, HttpStatus.BAD_GATEWAY);
+      console.log('Error: render student list', err.message);
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
   findOne(id: number) {
