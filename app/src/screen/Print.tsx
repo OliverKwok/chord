@@ -14,6 +14,7 @@ import {
   RefreshControl,
   Button,
 } from 'react-native';
+import {PdfList, Student, PrintRecord} from '../type/app';
 import {version} from '../../package.json';
 import Config from 'react-native-config';
 
@@ -25,21 +26,6 @@ import RNPrint from 'react-native-print';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {Dialog} from '@rneui/themed';
 import RadioButtonWithName from '../component/RadioButtonWithName';
-
-interface PdfList {
-  name: string;
-  children: PdfList[];
-}
-
-interface Student {
-  id: number;
-  name: string;
-}
-
-interface PrintRecord {
-  student_id: number;
-  print_file_name: string;
-}
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -53,7 +39,6 @@ export default () => {
   const [checkIpPass, setCheckIpPass] = React.useState(false);
   const [checkVersionPass, setCheckVersionPass] = React.useState(false);
   const [showSpinner, setShowSpinner] = React.useState(false);
-  // const [selectedPrinter, setSelectedPrinter] = React.useState<any>(null);
 
   // select student dialog
   const [showDialog, setShowDialog] = React.useState(false);
@@ -72,7 +57,6 @@ export default () => {
   const longFolderName = 'VajRn5YpJk3Vxf7b';
 
   const API_URL = Config.API_URL;
-  // const API_URL = `http://192.168.104.114:3001`;
 
   const checkExternalIp = async () => {
     const ipAddress = await axios.get('https://api.ipify.org?format=json');
@@ -93,8 +77,21 @@ export default () => {
     setFolderList(pdfResponse.data);
   };
 
+  // zustand for student list
+
+  // interface StudentListState {
+  //   StudentList: Student[];
+  //   newStudentList: (by: Student[]) => void;
+  // }
+
+  // const useStudentListStore = create<StudentListState>(set => ({
+  //   StudentList: [],
+  //   newStudentList: () => set(state => ({StudentList: state.StudentList})),
+  // }));
+
   const fetchStudentJson = async () => {
     const studentResponse = await axios.get(`${API_URL}/student`);
+    // const bears = useStudentListStore(state => state.newStudentList);
     setStudentList(studentResponse.data);
   };
 
@@ -178,13 +175,6 @@ export default () => {
     );
   }
 
-  // iOS Only
-  // const selectPrinter = async () => {
-  //   const selectedPrinter = await RNPrint.selectPrinter({x: '100', y: '100'});
-  //   setSelectedPrinter(selectedPrinter);
-  // };
-
-  // iOS Only
   const sendToPrint = async (path: string, fileName: string) => {
     const checkIpBeforePrint = await checkExternalIp();
     if (!checkIpBeforePrint) {
@@ -193,13 +183,6 @@ export default () => {
       ]);
       return;
     }
-
-    // if (!selectedPrinter) {
-    //   Alert.alert('Reminder', 'Please Select Printer', [
-    //     {text: 'OK', onPress: () => setShowSpinner(false)},
-    //   ]);
-    //   return;
-    // }
 
     if (selectedStudent > 0) {
       let studentName = '';
@@ -230,7 +213,6 @@ export default () => {
             });
 
             await RNPrint.print({
-              // printerURL: selectedPrinter.url,
               filePath: path,
             });
 
@@ -249,23 +231,12 @@ export default () => {
       });
 
       await RNPrint.print({
-        // printerURL: selectedPrinter.url,
         filePath: path,
       });
 
       setShowSpinner(false);
     }
   };
-
-  // for promise testing
-
-  // const delay = async (ms: number) => {
-  //   return new Promise(resolve => {
-  //     setTimeout(resolve as any, ms);
-  //   });
-  // };
-
-  // await delay(3000);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -378,20 +349,6 @@ export default () => {
               <Button title="Select" onPress={toggleDialog} />
             </View>
           </Dialog>
-          {/* silent print function, not use it now */}
-          {/* <View style={styles.footerContainer}>
-            <Button onPress={selectPrinter} title="Select Printer" />
-            <View style={{paddingBottom: 12}}>
-              {!selectedPrinter ? (
-                <Text style={{textAlign: 'center'}}>Not Selected</Text>
-              ) : (
-                <Text
-                  style={{
-                    textAlign: 'center',
-                  }}>{`Selected Printer Name: ${selectedPrinter.name}`}</Text>
-              )}
-            </View>
-          </View> */}
         </>
       ) : (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
