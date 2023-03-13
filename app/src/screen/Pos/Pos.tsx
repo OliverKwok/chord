@@ -61,8 +61,7 @@ export default function () {
               <TouchableOpacity
                 style={styles.headerItemContainer}
                 key={item.id}
-                // onPress={() => navigation.navigate(item.screen)}
-              >
+                onPress={() => navigation.navigate(item.screen)}>
                 <FontAwesomeIcon icon={item.logo} size={32} color="#dbdbdb" />
                 <Text style={styles.headerText}>{item.text}</Text>
               </TouchableOpacity>
