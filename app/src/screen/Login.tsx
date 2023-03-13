@@ -21,6 +21,7 @@ import Config from 'react-native-config';
 
 const LoginForm = () => {
   // const API_URL = Config.API_URL;
+  console.log(Config.API_URL);
   const API_URL = `http://192.168.104.114:3001`;
 
   const navigation = useNavigation();
