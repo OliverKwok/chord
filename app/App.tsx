@@ -13,6 +13,7 @@ import Login from './src/screen/Login';
 import Print from './src/screen/Print';
 import Pos from './src/screen/Pos/Pos';
 import Student from './src/screen/Pos/Student';
+import StudentDetail from './src/screen/Pos/StudentDetail';
 import Enroll from './src/screen/Pos/Enroll';
 import Course from './src/screen/Pos/Course';
 import Admin from './src/screen/Pos/Admin';
@@ -90,6 +91,7 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Main" component={Main} />
         <Stack.Screen name="Student" component={Student} />
+        <Stack.Screen name="StudentDetail" component={StudentDetail} />
         <Stack.Screen name="Enroll" component={Enroll} />
         <Stack.Screen name="Course" component={Course} />
         <Stack.Screen name="Admin" component={Admin} />

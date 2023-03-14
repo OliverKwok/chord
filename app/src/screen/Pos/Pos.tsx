@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import React, {createRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {ScreenList} from '../../type';
+import {ScreenList} from '../../type/screenType';
 
 import LinearGradient from 'react-native-linear-gradient';
 import {getStatusBarHeight} from 'react-native-status-bar-height';

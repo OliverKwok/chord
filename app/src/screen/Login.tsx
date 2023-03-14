@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
-import {ScreenList} from '../type';
+import {ScreenList} from '../type/screenType';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';

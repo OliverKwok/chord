@@ -1,28 +1,36 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 import {Student} from '../../type/app';
+import {ScreenList} from '../../type/screenType';
 
 import {useStudentListStore} from '../../store/studentList';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faPlus, faUser} from '@fortawesome/free-solid-svg-icons';
 
 export default () => {
   const {studentList} = useStudentListStore();
+  const navigation = useNavigation();
 
   const studentListItemRenderer = (item: Student) => {
     return (
-      <TouchableOpacity style={styles.studentNameContainer}>
+      <TouchableOpacity
+        style={styles.studentNameContainer}
+        onPress={() => {
+          navigation.navigate(ScreenList.StudentDetail);
+        }}>
+        <View
+          style={{flex: 0.5, justifyContent: 'center', alignItems: 'center'}}>
+          <FontAwesomeIcon icon={faUser} size={20} color={'#050087'} />
+        </View>
         <View style={{flex: 1}}>
           <Text style={styles.studentNameText}>{item.name}</Text>
         </View>
         <View style={{flex: 0.5}}>
           <Text style={styles.studentNameText}>P1</Text>
-        </View>
-        <View style={{flex: 1}}>
-          <Text style={styles.studentNameText}>9123 4567</Text>
         </View>
       </TouchableOpacity>
     );
@@ -30,17 +38,6 @@ export default () => {
 
   return (
     <SafeAreaView>
-      <View style={styles.listHeader}>
-        <View style={{flex: 1}}>
-          <Text style={styles.listHeaderText}>Name</Text>
-        </View>
-        <View style={{flex: 0.5}}>
-          <Text style={styles.listHeaderText}>Level</Text>
-        </View>
-        <View style={{flex: 1}}>
-          <Text style={styles.listHeaderText}>Phone</Text>
-        </View>
-      </View>
       <View>
         <FlatList
           data={studentList}

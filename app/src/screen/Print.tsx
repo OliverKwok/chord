@@ -345,7 +345,12 @@ export default () => {
       ) : (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <View style={{marginBottom: 16}}>
-            <Text style={{color: 'white'}}>Checking the Version</Text>
+            <Text style={{color: 'white', textAlign: 'center'}}>
+              Checking the Version
+            </Text>
+            <Text style={{color: 'white', textAlign: 'center'}}>
+              Current Version: {version}
+            </Text>
           </View>
           <ActivityIndicator size="large" color="white" />
         </View>

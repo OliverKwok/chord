@@ -6,6 +6,7 @@ export enum ScreenList {
   Print = 'Print',
   Pos = 'Pos',
   Student = 'Student',
+  StudentDetail = 'StudentDetail',
   Enroll = 'Enroll',
   Course = 'Course',
   Admin = 'Admin',
@@ -17,6 +18,7 @@ export type RootStackParamList = {
   [ScreenList.Print]: undefined;
   [ScreenList.Pos]: undefined;
   [ScreenList.Student]: undefined;
+  [ScreenList.StudentDetail]: undefined;
   [ScreenList.Enroll]: undefined;
   [ScreenList.Course]: undefined;
   [ScreenList.Admin]: undefined;
