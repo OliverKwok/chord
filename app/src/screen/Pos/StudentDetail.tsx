@@ -1,28 +1,43 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import axios from 'axios';
+import {API_URL} from '@env';
+import {Student} from '../../type/app';
 
-const StudentDetail = {
-  id: 1,
-  name: 'John Doe',
-  birthday: '1990-01-01',
-  level: 'P1',
-  school: 'School ABC',
-  phone: '91234567',
-  phone_relation: 'mother',
-  phone2: '51234567',
-  phone2_relation: 'helper',
-  estate: 'MegaMall',
-  remark:
-    '閱讀理解較弱，一些相近字混淆，但英文基礎OK 只要解釋英文的文法規律及用法，就可以按規律完成，但初學的過去式未太熟。懂得閱讀簡單的英文句子及生字，詞庫不多。',
-  is_quitted: false,
-  gender: 'M',
-};
+export default ({route}: any) => {
+  const {id} = route.params;
 
-export default () => {
+  const [studentDetail, setStudentDetail] = React.useState<Student>({
+    id: 0,
+    name: '',
+    birthdy: '',
+    level: '',
+    school: '',
+    phone: '',
+    phone_relation: '',
+    phone2: '',
+    phone2_relation: '',
+    estate: '',
+    remark: '',
+    is_quitted: '',
+    gender: '',
+  });
+
+  const fetchStudentDetail = async () => {
+    const response = await axios.get(`${API_URL}/student/${id}`);
+    setStudentDetail(response.data);
+  };
+
+  React.useEffect(() => {
+    fetchStudentDetail();
+  }, []);
+
   return (
-    <View>
-      <Text>StudentDetail</Text>
-    </View>
+    <SafeAreaView>
+      <View>
+        <Text>{studentDetail.name}</Text>
+      </View>
+    </SafeAreaView>
   );
 };
 

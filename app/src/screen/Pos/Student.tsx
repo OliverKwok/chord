@@ -20,7 +20,9 @@ export default () => {
       <TouchableOpacity
         style={styles.studentNameContainer}
         onPress={() => {
-          navigation.navigate(ScreenList.StudentDetail);
+          navigation.navigate(ScreenList.StudentDetail, {
+            id: item.id,
+          });
         }}>
         <View
           style={{flex: 0.5, justifyContent: 'center', alignItems: 'center'}}>
@@ -30,7 +32,7 @@ export default () => {
           <Text style={styles.studentNameText}>{item.name}</Text>
         </View>
         <View style={{flex: 0.5}}>
-          <Text style={styles.studentNameText}>P1</Text>
+          <Text style={styles.studentNameText}>{item.level}</Text>
         </View>
       </TouchableOpacity>
     );

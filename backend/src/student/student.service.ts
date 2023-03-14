@@ -14,16 +14,24 @@ export class StudentService {
 
   async findAll() {
     try {
-      const studentList = await this.knex.table('student').select('id', 'name');
-      // console.log(studentList);
+      const studentList = await this.knex
+        .table('student')
+        .select('id', 'level', 'name')
+        .orderBy('level', 'asc');
       return studentList;
     } catch (err) {
       console.log('Error: render student list', err.message);
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
+  async findOne(id: number) {
+    try {
+      const student = await this.knex.table('student').where('id', id);
+      return student[0];
+    } catch (err) {
+      console.log('Error: get one student detail', err.message);
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   update(id: number, updateStudentDto: UpdateStudentDto) {

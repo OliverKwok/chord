@@ -18,7 +18,7 @@ export type RootStackParamList = {
   [ScreenList.Print]: undefined;
   [ScreenList.Pos]: undefined;
   [ScreenList.Student]: undefined;
-  [ScreenList.StudentDetail]: undefined;
+  [ScreenList.StudentDetail]: {id: number};
   [ScreenList.Enroll]: undefined;
   [ScreenList.Course]: undefined;
   [ScreenList.Admin]: undefined;
