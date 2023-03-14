@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import {PdfList, Student, PrintRecord} from '../type/app';
 import {version} from '../../package.json';
-import Config from 'react-native-config';
+import {API_URL} from '@env';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faUser} from '@fortawesome/free-solid-svg-icons';
@@ -57,9 +57,6 @@ export default () => {
 
   // to protect folder
   const longFolderName = 'VajRn5YpJk3Vxf7b';
-
-  // const API_URL = Config.API_URL;
-  const API_URL = `http://192.168.104.114:3001`;
 
   const {updateStudentList} = useStudentListStore();
 

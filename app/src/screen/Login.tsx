@@ -2,11 +2,9 @@ import React, {useState} from 'react';
 import {
   View,
   TextInput,
-  Button,
   StyleSheet,
   Text,
   Alert,
-  Touchable,
   TouchableOpacity,
 } from 'react-native';
 
@@ -17,13 +15,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBook} from '@fortawesome/free-solid-svg-icons';
 
-import Config from 'react-native-config';
+import {API_URL} from '@env';
 
 const LoginForm = () => {
-  // const API_URL = Config.API_URL;
-  console.log(Config.API_URL);
-  const API_URL = `http://192.168.104.114:3001`;
-
   const navigation = useNavigation();
 
   const [username, setUsername] = useState('');
